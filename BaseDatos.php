@@ -17,7 +17,7 @@ class BaseDatos
      */
     public function __construct()
     {
-        $this->HOSTNAME = "127.0.0.1";
+        $this->HOSTNAME = "Localhost";
         $this->BASEDATOS = "bdviajes";
         $this->USUARIO = "viggiano";
         $this->CLAVE = "FAI-5516";
@@ -31,10 +31,63 @@ class BaseDatos
      *
      * @return string
      */
-    public function getError()
-    {
+
+    //METODOS DE ACCESO GETTERS Y SETTERS
+    public function getError(){
         return "\n" . $this->ERROR;
     }
+     public function setError($error){
+        $this -> ERROR = $error;
+    }
+
+    public function getHostname(){
+        return "\n" . $this -> HOSTNAME;
+    }
+    public function setHostname($hostname){
+        $this -> HOSTNAME = $hostname;
+    }
+
+    public function getUsuario(){
+        return "\n" . $this -> USUARIO;
+    }
+    public function setUsuario($usuario){
+        $this -> USUARIO = $usuario;
+    }
+
+    public function getClave(){
+        return "\n" . $this -> CLAVE;
+    }
+    public function setClave($clave){
+        $this -> CLAVE = $clave;
+    }       
+
+    public function getBasedatos(){
+        return "\n" . $this -> BASEDATOS;
+    }
+    public function setBasedatos($basedatos){
+        $this -> BASEDATOS = $basedatos;
+    }
+    
+    public function getConexion(){
+        return $this -> CONEXION;
+    }
+    public function setConexion($conexion){
+        $this -> CONEXION = $conexion;
+    }
+    public function getQuery(){
+        return $this -> QUERY;
+    }
+    public function setQuery($query){
+        $this -> QUERY = $query;
+    }
+    public function getResult(){
+        return $this -> RESULT;
+    }
+    public function setResult($result){
+        $this -> RESULT = $result;
+    }
+   
+
 
     /**
      * Inicia la coneccion con el Servidor y la  Base Datos Mysql.
@@ -42,23 +95,27 @@ class BaseDatos
      *
      * @return boolean
      */
-    public  function Iniciar()
-    {
-        $resp  = false;
-        $conexion = mysqli_connect($this->HOSTNAME, $this->USUARIO, $this->CLAVE, $this->BASEDATOS);
-        if ($conexion) {
-            if (mysqli_select_db($conexion, $this->BASEDATOS)) {
-                $this->CONEXION = $conexion;
-                unset($this->QUERY);
-                unset($this->ERROR);
-                $resp = true;
-            } else {
-                $this->ERROR = mysqli_errno($conexion) . ": " . mysqli_error($conexion);
-            }
-        } else {
-            $this->ERROR =  mysqli_errno($conexion) . ": " . mysqli_error($conexion);
+    public  function iniciar(){
+        $exito  = false;
+
+        $conexion = mysqli_connect(
+            $this->getHostname(),
+            $this->getUsuario(),
+            $this->getClave(),
+            $this->getBasedatos()
+        );
+
+        if ($conexion){
+            $this->setConexion($conexion);
+            $this->setQuery('');
+            $this->setError('');
+
+            $exito = true;
+        }else{
+            $this->setError(mysqli_connect_errno() . ": " . mysqli_connect_error());
         }
-        return $resp;
+
+        return $exito;
     }
 
     /**
