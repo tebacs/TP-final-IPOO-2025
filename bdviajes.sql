@@ -4,15 +4,15 @@ CREATE TABLE Empresa(
     idEmpresa bigint AUTO_INCREMENT,
     empresaNombre varchar(150),
     empresaDireccion varchar(150),
-    PRIMARY KEY (idEmpresa)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+    PRIMARY KEY (idEmpresa) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE Persona(
     idPersona bigint AUTO_INCREMENT,
     nombre varchar(150), 
     apellido varchar(150), 
     PRIMARY KEY (idPersona)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 CREATE TABLE Responsable (
@@ -22,7 +22,8 @@ CREATE TABLE Responsable (
     PRIMARY KEY (numeroResponsable),
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
     ON UPDATE CASCADE
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;;
+    ON DELETE RESTRICT
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;;
 	
 CREATE TABLE Viaje (
     idViaje bigint AUTO_INCREMENT, /*codigo de viaje*/
@@ -35,17 +36,27 @@ CREATE TABLE Viaje (
     FOREIGN KEY (idEmpresa) REFERENCES Empresa (idEmpresa),
 	FOREIGN KEY (numeroResponsableViaje) REFERENCES Responsable (numeroResponsable)
     ON UPDATE CASCADE
-    ON DELETE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
+    ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 	
 CREATE TABLE Pasajero (
-    documentoPasajero varchar(15),
-    nombrePasajero varchar(150), 
-    apellidoPasajero varchar(150), 
+    documentoPasajero varchar(15), 
 	telefonoPasajero int, 
-	idViajePasajero bigint,
+    idPersona bigint,
     PRIMARY KEY (documentoPasajero),
-	FOREIGN KEY (idViajePasajero) REFERENCES Viaje (idViaje)	
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+    FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)	
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
  
-  
+CREATE TABLE RealizaViaje (
+    idViaje bigint,
+    idPersona bigint,
+    fechaRealizaViaje date,
+    PRIMARY KEY (idViaje, idPersona),
+    FOREIGN KEY (idViaje) REFERENCES Viaje (idViaje)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+    FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
