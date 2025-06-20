@@ -2,25 +2,22 @@
     include_once 'BaseDatos.php';
 
     class Viaje{
-        private $idViaje;
+        private $idViaje=0;
         private $destino;
         private $idEmpresa;
         private $colPasajeros;
         private $refResponsableV;
         private $cantMaxPasajeros;
         private $importeViaje;
-        private static $contadorId=1;
 
         //Constructor
         public function __construct($empresa,$responsable,$dest,$maxPasaj,$importe){
-            $this->idViaje= self::$contadorId;
             $this->destino=$dest;
             $this->idEmpresa=$empresa;
             $this->colPasajeros=[];
             $this->refResponsableV=$responsable;
             $this->cantMaxPasajeros=$maxPasaj;
             $this->importeViaje=$importe;
-            self:: $contadorId++;
         }
 
         //Getters y Setters
@@ -44,9 +41,6 @@
             return $this->idEmpresa;
         }
 
-        public function setIdEmpresa($nuevo){
-            $this->idEmpresa=$nuevo;
-        }
 
         public function getPasajeros(){
             return $this->colPasajeros;
@@ -60,7 +54,7 @@
             return $this->refResponsableV;
         }
 
-        public function setResponsableB($nuevo){
+        public function setResponsableV($nuevo){
             $this->refResponsableV=$nuevo;
         }
 
@@ -90,6 +84,124 @@
                 $mensj .= "\nPasajero:\n-" . $this->getPasajeros()->__toString();
             }
             return $mensj;
+        }
+
+        /**
+         * Recupera los datos de un viaje segun su id
+         * @param int $id idViaje
+         * @throws \Exception
+         * @return bool true de haberlo encontrado, false caso contrario
+         */
+        public static function Buscar($id){
+            $base= new BaseDatos();
+            $consultaViaje= "Select * from Viaje where idViaje=" . $id;
+            $resp= false;
+
+            if($base->iniciar()){
+                if($base->Ejecutar($consultaViaje)){
+                    if($fila=$base->Registro()){
+                        $viajeEncontrado= new Viaje(
+                             $fila['idEmpresa'], $fila['responsableV'],
+                    $fila['destino'], $fila['cantMaxPasajeros'], $fila['importeViaje']
+                        );
+                         $viajeEncontrado->setIdViaje($id);
+                        $resp=true;
+                    }
+                } else{
+                    throw new Exception($base->getError());
+                }
+            } else{
+                throw new Exception($base->getError());
+            }
+            return $resp;
+        }
+
+        /**
+         * Recupera los datos de los viajes, ordenado según su destino
+         * @param mixed $condicion
+         * @throws \Exception
+         * @return bool
+         */
+        public static function Listar($condicion=''){
+            $aViaje= null;
+            $base= new BaseDatos();
+            $consulta= "Select * from Viaje ";
+            if($condicion!=''){
+                $consulta .= "where " . $condicion;
+            }
+            $consulta .= " order by Destino";
+
+            if($base->iniciar()){
+                if($base->Ejecutar($consulta)){
+                    while($fila=$base->Registro()){
+                        $objViaje= new Viaje(
+                            $fila['idEmpresa'], $fila['responsableV'], $fila['destino'], $fila['cantMaxPasajeros'], $fila['importeViaje']
+                        );
+                        $objViaje->setIdViaje($fila['idViaje']);
+                        $aViaje[]=$objViaje;
+                        $resp= true;
+                    }
+                }else{
+                    throw new Exception($base->getError());
+                }
+            }else{
+                throw new Exception($base->getError());
+            }
+            return $resp;
+        }
+
+        public function Insertar(){
+            $base= new BaseDatos();
+            $resp= false;
+            $consulta= "INSERT INTO Viaje( destinoViaje, cantMaxPasajeros, idEmpresa, numeroResponsableViaje, importeViaje
+                        VALUES (". $this->getDestino() . ", " .  $this->getMaxPasajeros() . ", " . $this->getIdEmpresa()
+                        . ", " . $this->getResponsableV() . ", " . $this->getImporte() . ")";
+            
+            if($base->iniciar()){
+                if($id=$base->devuelveIDInsercion($consulta)){
+                    $this->setIdViaje($id);
+                    $resp= true;
+                }else{
+                    throw new Exception($base->getError());
+                }
+            }else{
+                throw new Exception($base->getError());
+            }
+            return $resp;
+        }
+
+        public function Modificar(){
+            $base= new BaseDatos();
+            $resp=false;
+            $consulta= "UPDATE Viaje SET destinoViaje= " . $this->getDestino() . ", idEmpresa= " . $this->getIdEmpresa()
+                        . ", numeroResponsableViaje= " . $this->getResponsableV() . ", importeViaje= " . $this->getImporte() 
+                        . " WHERE idViaje= " . $this->getIdViaje();
+            
+            if($base->iniciar()){
+                if($base->Ejecutar($consulta)){
+                    $resp= true;
+                }else{
+                    throw new Exception($base->getError());
+                }
+            }else{
+                throw new Exception($base->getError());
+            }
+        }
+
+        public function Eliminar(){
+            $base= new BaseDatos();
+            $resp= false;
+
+            if($base->iniciar()){
+                $consulta= "DELETE FROM Viaje WHERE idViaje= " . $this->getIdViaje();
+                if($base->Ejecutar($consulta)){
+                    $resp=true;
+                }else{
+                    throw new Exception($base->getError());
+                }
+            }else{
+                throw new Exception($base->getError());
+            }
         }
     }
 ?>
