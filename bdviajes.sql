@@ -8,15 +8,20 @@ CREATE TABLE Empresa(
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE Persona(
-    
-)
+    idPersona bigint AUTO_INCREMENT,
+    nombre varchar(150), 
+    apellido varchar(150), 
+    PRIMARY KEY (idPersona)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 
 CREATE TABLE Responsable (
     numeroResponsable bigint AUTO_INCREMENT,
+    idPersona bigint,
     numeroLicencia bigint,
-	nombreResponsable varchar(150), 
-    apellidoResponsable  varchar(150), 
-    PRIMARY KEY (numeroResponsable)
+    PRIMARY KEY (numeroResponsable),
+    FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
+    ON UPDATE CASCADE
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;;
 	
 CREATE TABLE Viaje (

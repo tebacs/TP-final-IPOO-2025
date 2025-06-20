@@ -9,8 +9,8 @@
         private $numeroLicencia;
 
         //METODO CONSTRUCTOR
-        public function __construct($dni, $nombre, $apellido, $numeroLicencia){
-            parent::__construct($dni, $nombre, $apellido);
+        public function __construct($idPersona, $nombre, $apellido, $numeroLicencia){
+            parent::__construct($idPersona, $nombre, $apellido);
             $this -> numeroResponsable = self::$contadorResp;
             self::$contadorResp++;
             $this -> numeroLicencia = $numeroLicencia;
@@ -34,7 +34,6 @@
             $mensaje = parent::__toString();
             $mensaje .= "Id Responsable: " . $this -> getNumeroResponsable() . "\n";
             $mensaje .= "Licencia: " . $this -> getNumeroLicencia() . "\n";
-
 
             return $mensaje;
         }
