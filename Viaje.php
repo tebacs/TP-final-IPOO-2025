@@ -9,11 +9,10 @@
         private $refResponsableV;
         private $cantMaxPasajeros;
         private $importeViaje;
-        private $contadorId;
+        private static $contadorId=1;
 
         //Constructor
         public function __construct($empresa,$responsable,$dest,$maxPasaj,$importe){
-            self::$contadorId=1;
             $this->idViaje= self::$contadorId;
             $this->destino=$dest;
             $this->idEmpresa=$empresa;
