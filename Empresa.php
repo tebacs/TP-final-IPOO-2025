@@ -7,9 +7,6 @@
         private $empresaNombre;
         private $empresaDireccion;
 
-        private static $contadorId = 1;//Variable para ir autoincrementando el idEmpresa
-
-
         //CONSTRUCTOR
         public function __construct($empresaNombre, $empresaDireccion)
         {
