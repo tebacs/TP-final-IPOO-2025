@@ -49,13 +49,13 @@ CREATE TABLE Pasajero (
  
 CREATE TABLE RealizaViaje (
     idViaje bigint,
-    idPersona bigint,
+    idPasajero bigint,
     fechaRealizaViaje date,
     PRIMARY KEY (idViaje, idPersona),
     FOREIGN KEY (idViaje) REFERENCES Viaje (idViaje)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
-    FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
+    FOREIGN KEY (idPasajero) REFERENCES Pasajero (idPersona)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
