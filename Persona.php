@@ -2,24 +2,24 @@
     //Clase Abstracta o Padre de class Cliente
     class Persona {
         //ATRIBUTOS
-        private $DNI;
+        private $idPersona;
         private $nombre;
         private $apellido;
 
         //METODO CONSTRUCTOR
-        public function __construct($dni, $nombre, $apellido) {
-            $this -> DNI = $dni;
+        public function __construct($idPersona, $nombre, $apellido) {
+            $this -> idPersona = $idPersona;
             $this -> nombre = $nombre;
             $this -> apellido = $apellido;
         }
 
         //METODOS DE ACCESO 
-        public function getDNI(){
-            return $this->DNI;
+        public function getidPersona(){
+            return $this->idPersona;
         }
 
-        public function setDNI($dni){
-            $this -> DNI = $dni;
+        public function setidPersona($idPersona){
+            $this -> idPersona = $idPersona;
         }
 
         public function getNombre(){
@@ -43,7 +43,7 @@
             $mensaje = "\n--------------DATOS----------------------\n";
             $mensaje .= "Nombre: " . $this -> getNombre() . "\n";
             $mensaje .= "Apellido: " . $this -> getApellido() . "\n";
-            $mensaje .= "DNI: " . $this -> getDNI() . "\n";
+            $mensaje .= "idPersona: " . $this -> getidPersona() . "\n";
 
             return $mensaje;
         }

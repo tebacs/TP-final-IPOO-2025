@@ -7,6 +7,10 @@ CREATE TABLE Empresa(
     PRIMARY KEY (idEmpresa)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+CREATE TABLE Persona(
+    
+)
+
 CREATE TABLE Responsable (
     numeroResponsable bigint AUTO_INCREMENT,
     numeroLicencia bigint,
