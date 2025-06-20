@@ -13,6 +13,7 @@
 
         //Constructor
         public function __construct($empresa,$responsable,$dest,$maxPasaj,$importe){
+            self::$contadorId=1;
             $this->idViaje= self::$contadorId;
             $this->destino=$dest;
             $this->idEmpresa=$empresa;
