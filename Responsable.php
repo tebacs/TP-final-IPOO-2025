@@ -3,18 +3,17 @@
 
     class Responsable extends Persona {
         
-        private static $contadorResp = 1;
         //ATRIBUTOS - VARIABLES INSTANCIA
         private $numeroResponsable;
         private $numeroLicencia;
+        private static $contadorResp = 1;
 
         //METODO CONSTRUCTOR
         public function __construct($idPersona, $nombre, $apellido, $numeroLicencia){
             parent::__construct($idPersona, $nombre, $apellido);
             $this -> numeroResponsable = self::$contadorResp;
-            self::$contadorResp++;
             $this -> numeroLicencia = $numeroLicencia;
-           
+            self::$contadorResp++;
         }
 
         //METODOS DE ACCESO GET Y SET
