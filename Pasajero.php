@@ -8,8 +8,8 @@ class Pasajero extends Persona {
     private $telefonoPasajero;
 
     //METODO CONSTRUCTOR
-    public function __construct($idPersona, $nombre, $apellido, $documentoPasajero, $telefonoPasajero) {
-        parent::__construct($idPersona, $nombre, $apellido);
+    public function __construct($nombre, $apellido, $documentoPasajero, $telefonoPasajero) {
+        parent::__construct($nombre, $apellido);
         $this->documentoPasajero = $documentoPasajero;
         $this->telefonoPasajero = $telefonoPasajero;
     }   

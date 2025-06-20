@@ -6,14 +6,13 @@
         //ATRIBUTOS - VARIABLES INSTANCIA
         private $numeroResponsable;
         private $numeroLicencia;
-        private static $contadorResp = 1;
 
         //METODO CONSTRUCTOR
-        public function __construct($idPersona, $nombre, $apellido, $numeroLicencia){
-            parent::__construct($idPersona, $nombre, $apellido);
-            $this -> numeroResponsable = self::$contadorResp;
+        public function __construct($nombre, $apellido, $numeroLicencia){
+            parent::__construct($nombre, $apellido);
+            $this -> numeroResponsable = 0;
             $this -> numeroLicencia = $numeroLicencia;
-            self::$contadorResp++;
+            
         }
 
         //METODOS DE ACCESO GET Y SET

@@ -13,9 +13,7 @@
         //CONSTRUCTOR
         public function __construct($empresaNombre, $empresaDireccion)
         {
-            $this -> idEmpresa = self::$contadorId;
-            self::$contadorId++;//Incrementar para la proxima instancia
-
+            $this -> idEmpresa = 0;
             $this -> empresaNombre = $empresaNombre;
             $this -> empresaDireccion = $empresaDireccion;
         }

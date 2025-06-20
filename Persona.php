@@ -7,8 +7,8 @@
         private $apellido;
 
         //METODO CONSTRUCTOR
-        public function __construct($idPersona, $nombre, $apellido) {
-            $this -> idPersona = $idPersona;
+        public function __construct($nombre, $apellido) {
+            $this -> idPersona = 0;
             $this -> nombre = $nombre;
             $this -> apellido = $apellido;
         }
@@ -48,7 +48,7 @@
             return $mensaje;
         }
 
-        
+        //
     }
 
 
