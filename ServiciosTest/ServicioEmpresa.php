@@ -1,6 +1,7 @@
 <?php
 
-include_once  "Empresa.php";
+include_once "Empresa.php";
+include_once "BaseDatos.php";
 
 function menuEmpresa(){
     $opciones = "----------MENU EMPRESA----------";
@@ -15,7 +16,8 @@ function menuEmpresa(){
 function llamarFuncionSeleccionadaEmpresa($opcion) {
     switch ($opcion) {
         case 1:
-            return listarEmpresasNumeradas();
+            echo listarEmpresasNumeradas();
+            break;
         case 2:
             echo "Ingrese el ID de la empresa a buscar: ";
             $idEmpresa = trim(fgets(STDIN));
@@ -25,6 +27,7 @@ function llamarFuncionSeleccionadaEmpresa($opcion) {
             } else {
                 echo "No se encontró la empresa con ID: $idEmpresa\n";
             }
+            break;
             
         case 3:
             echo "Ingrese los datos de la empresa:\n";
@@ -34,12 +37,16 @@ function llamarFuncionSeleccionadaEmpresa($opcion) {
             $direccion = trim(fgets(STDIN));
             $empresa = new Empresa($nombre, $direccion);
             return insertarEmpresa($empresa);
+            break;
         case 4:
             return modificarEmpresa();
+            break;
         case 5:
             return eliminarEmpresa();
+            break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
+            break;
     }
 }
 
