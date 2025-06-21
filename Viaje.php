@@ -81,7 +81,7 @@
             $i=0;
 
             for($i=0; $i<$cantPasajeros; $i++){
-                $mensj .= "\nPasajero:\n-" . $this->getPasajeros()->__toString();
+                $mensj .= "\nPasajero:\n-" . $this->getPasajeros()[$i]->__toString();
             }
             return $mensj;
         }
