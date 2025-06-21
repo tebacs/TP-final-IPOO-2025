@@ -48,7 +48,7 @@ function listarEmpresasNumeradas() {
     echo "Listando empresas numeradas...\n";
 
     $resultado = "";
-    $empresas = Empresa::listarEmpresas();
+    $empresas = Empresa::listar();
     if (empty($empresas) || count($empresas) === 0) {
         $resultado = "No hay empresas registradas.";
     } else {
