@@ -2,6 +2,9 @@
 
 include_once "ServiciosTest/ServicioEmpresa.php";
 include_once "ServiciosTest/ServicioViaje.php";
+include_once "ServiciosTest/ServicioPasajero.php";
+include_once "ServiciosTest/ServicioResponsable.php";
+include_once "ServiciosTest/ServicioPersona.php";
 
 
 function menu1()
@@ -43,7 +46,7 @@ switch ($opcion) {
         break;
 
     case 4:
-        echo menuResposable();
+        echo menuResponsable();
         echo "\nIngresar opción deseada: ";
         $opcion = trim(fgets(STDIN));
         llamarFuncionSeleccionadaResponsable($opcion);
