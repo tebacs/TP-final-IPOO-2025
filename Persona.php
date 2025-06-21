@@ -93,7 +93,7 @@
 				while($fila=$base->Registro()){
 				
 					$persona=new Persona($fila['nombre'], $fila['apellido']);
-					
+					Persona::setIdPersona($fila['idPersona']);/* HABLARLO CON LOS CHICOS */
 					array_push($arregloPersona,$persona);
 				}
 		 	}	else {
