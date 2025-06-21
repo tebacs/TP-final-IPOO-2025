@@ -1,4 +1,5 @@
 <?php
+    include_once 'BaseDatos.php';
     //Clase Abstracta o Padre de class Cliente
     class Persona {
         //ATRIBUTOS
@@ -14,11 +15,11 @@
         }
 
         //METODOS DE ACCESO 
-        public function getidPersona(){
+        public function getIdPersona(){
             return $this->idPersona;
         }
 
-        public function setidPersona($idPersona){
+        public function setIdPersona($idPersona){
             $this -> idPersona = $idPersona;
         }
 
@@ -48,8 +49,126 @@
             return $mensaje;
         }
 
-        //METODO BUSCAR
-    
+    /**
+	 * Recupera los datos de una persona por numero de idPersona
+	 * @param int $idPersona
+	 * @return true en caso de encontrar los datos, false en caso contrario 
+	 */		
+    public function Buscar($idPersona){
+		$base=new BaseDatos();
+		$consultaPersona="SELECT * FROM Persona WHERE idPersona=".$idPersona;
+		$resp= false;
+		if($base->Iniciar()){
+			if($base->Ejecutar($consultaPersona)){
+				if($fila=$base->Registro()){
+                    $this->setIdPersona($fila['idPersona']);					
+					$this->setNombre($fila['nombre']);
+					$this->setApellido($fila['apellido']);
+					$resp= true;
+				}				
+			
+		 	}	else {
+		 			throw new Exception($base->getError());
+		 		
+			}
+		 }	else {
+		 		throw new Exception($base->getError());
+		 	
+		 }		
+		 return $resp;
+	}	
+
+    public static function listar($condicion=""){
+	    $arregloPersona = null;
+		$base=new BaseDatos();
+		$consultaPersonas="SELECT * FROM Persona ";
+		if ($condicion!=""){
+		    $consultaPersonas=$consultaPersonas.' WHERE '.$condicion;
+		}
+		$consultaPersonas.=" order by apellido ";
+		//echo $consultaPersonas;
+		if($base->Iniciar()){
+			if($base->Ejecutar($consultaPersonas)){				
+				$arregloPersona= array();
+				while($fila=$base->Registro()){
+				
+					$persona=new Persona($fila['nombre'], $fila['apellido']);
+					
+					array_push($arregloPersona,$persona);
+	
+				}
+				
+			
+		 	}	else {
+		 			throw new Exception($base->getError());
+		 		
+			}
+		 }	else {
+		 		throw new Exception($base->getError());
+		 	
+		 }	
+		 return $arregloPersona;
+	}	
+
+    public function insertar(){
+		$base=new BaseDatos();
+		$resp= false;
+		$consultaInsertar="INSERT INTO persona(nombre, apellido) 
+				VALUES (".$this->getNombre()."','".$this->getApellido()."')";
+		
+		if($base->Iniciar()){
+
+			if($base->Ejecutar($consultaInsertar)){
+
+			    $resp=  true;
+
+			}	else {
+					throw new Exception($base->getError());
+					
+			}
+
+		} else {
+				throw new Exception($base->getError());
+			
+		}
+		return $resp;
+	}
+
+    public function modificar(){
+	    $resp =false; 
+	    $base=new BaseDatos();
+		$consultaModifica="UPDATE Persona SET nombre='".$this->getNombre()."',apellido='".$this->getApellido()."' WHERE idPersona=". $this->getIdPersona();
+		if($base->Iniciar()){
+			if($base->Ejecutar($consultaModifica)){
+			    $resp=  true;
+			}else{
+				throw new Exception($base->getError());	
+			}
+		}else{
+				throw new Exception($base->getError());
+		    }
+		return $resp;
+	}
+
+    public function eliminar(){
+		$base=new BaseDatos();
+		$resp=false;
+		if($base->Iniciar()){
+				$consultaBorra="DELETE FROM Persona WHERE idPersona=".$this->getIdPersona();
+				if($base->Ejecutar($consultaBorra)){
+				    $resp=  true;
+				}else{
+					throw new Exception($base->getError());
+					
+				}
+		}else{
+			throw new Exception($base->getError());
+			
+		}
+		return $resp; 
+	}
+
+
     }
 
 
