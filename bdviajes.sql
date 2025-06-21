@@ -19,7 +19,7 @@ CREATE TABLE Responsable (
     numeroResponsable bigint AUTO_INCREMENT,
     idPersona bigint,
     numeroLicencia bigint,
-    PRIMARY KEY (numeroResponsable),
+    PRIMARY KEY (idPersona),
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
