@@ -29,7 +29,7 @@ CREATE TABLE Pasajero (
     documentoPasajero varchar(15), 
 	telefonoPasajero int, 
     idPersona bigint,
-    PRIMARY KEY (documentoPasajero),
+    PRIMARY KEY (idPersona),
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)	
     ON UPDATE CASCADE
     ON DELETE RESTRICT
