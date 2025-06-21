@@ -1,6 +1,7 @@
 <?php
 
 include_once  "Empresa.php";
+include_once "BaseDatos.php";
 
 function menuEmpresa(){
     $opciones = "----------MENU EMPRESA----------";
@@ -15,7 +16,8 @@ function menuEmpresa(){
 function llamarFuncionSeleccionadaEmpresa($opcion) {
     switch ($opcion) {
         case 1:
-            return listarEmpresasNumeradas();
+            echo listarEmpresasNumeradas();
+            break;
         case 2:
             echo "Ingrese el ID de la empresa a buscar: ";
             $idEmpresa = trim(fgets(STDIN));
@@ -48,7 +50,7 @@ function listarEmpresasNumeradas() {
     echo "Listando empresas numeradas...\n";
 
     $resultado = "";
-    $empresas = Empresa::listar();
+    $empresas = Empresa::Listar();
     if (empty($empresas) || count($empresas) === 0) {
         $resultado = "No hay empresas registradas.";
     } else {

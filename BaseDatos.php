@@ -17,10 +17,10 @@ class BaseDatos
      */
     public function __construct()
     {
-        $this->HOSTNAME = "Localhost";
+        $this->HOSTNAME = "127.0.0.1";
         $this->BASEDATOS = "bdviajes";
-        $this->USUARIO = "viggiano";
-        $this->CLAVE = "FAI-5516";
+        $this->USUARIO = "root";
+        $this->CLAVE = "";
         $this->RESULT = 0;
         $this->QUERY = "";
         $this->ERROR = "";
@@ -34,35 +34,35 @@ class BaseDatos
 
     //METODOS DE ACCESO GETTERS Y SETTERS
     public function getError(){
-        return "\n" . $this->ERROR;
+        return $this->ERROR;
     }
      public function setError($error){
         $this -> ERROR = $error;
     }
 
     public function getHostname(){
-        return "\n" . $this -> HOSTNAME;
+        return $this -> HOSTNAME;
     }
     public function setHostname($hostname){
         $this -> HOSTNAME = $hostname;
     }
 
     public function getUsuario(){
-        return "\n" . $this -> USUARIO;
+        return $this -> USUARIO;
     }
     public function setUsuario($usuario){
         $this -> USUARIO = $usuario;
     }
 
     public function getClave(){
-        return "\n" . $this -> CLAVE;
+        return $this -> CLAVE;
     }
     public function setClave($clave){
         $this -> CLAVE = $clave;
     }       
 
     public function getBasedatos(){
-        return "\n" . $this -> BASEDATOS;
+        return $this -> BASEDATOS;
     }
     public function setBasedatos($basedatos){
         $this -> BASEDATOS = $basedatos;
