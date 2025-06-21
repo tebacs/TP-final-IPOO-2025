@@ -1,6 +1,6 @@
 <?php
-
-
+include_once "BaseDatos.php";
+include_once "Persona.php";
 include_once "Pasajero.php";
 function menuPasajero() {
     $opciones = "----------MENU PASAJERO----------";

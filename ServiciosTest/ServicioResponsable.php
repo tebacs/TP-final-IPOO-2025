@@ -1,5 +1,7 @@
 <?php
 
+include_once "Responsable.php";
+
 function menuResponsable() {
     $opciones = "----------MENU RESPONSABLE----------";
     $opciones .= "\n1. Listar Responsables";
