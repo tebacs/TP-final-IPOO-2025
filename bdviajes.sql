@@ -19,7 +19,7 @@ CREATE TABLE Responsable (
     numeroResponsable bigint AUTO_INCREMENT,
     idPersona bigint,
     numeroLicencia bigint,
-    PRIMARY KEY (idPersona),
+    PRIMARY KEY (numeroResponsable, idPersona),
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
@@ -53,7 +53,7 @@ CREATE TABLE RealizaViaje (
     idViaje bigint,
     idPasajero bigint,
     fechaRealizaViaje date,
-    PRIMARY KEY (idViaje, idPersona),
+    PRIMARY KEY (idViaje, idPasajero),
     FOREIGN KEY (idViaje) REFERENCES Viaje (idViaje)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
