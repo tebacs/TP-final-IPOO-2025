@@ -1,10 +1,18 @@
 <?php
 
 include_once "ServiciosTest/ServicioEmpresa.php";
+include_once "ServiciosTest/ServicioViaje.php";
+
 
 function menu1()
 {
-    echo menuEmpresa();
+    $opciones = "----------MENU----------";
+    $opciones .= "\n1. Empresa";
+    $opciones .= "\n2. Viaje";
+    $opciones .= "\n3. Pasajeros";
+    $opciones .= "\n4. Responsables";
+    $opciones .= "\n5. Persona";
+    return $opciones;
 }
 
 echo menu1();
@@ -12,14 +20,19 @@ echo "\nIngresar opción deseada: ";
 $opcion = trim(fgets(STDIN));
 
 switch ($opcion) {
+
     case 1:
-        echo "Empresa";
-        //mostrar menu de empresa;
+        echo menuEmpresa();
+        echo "\nIngresar opción deseada: ";
+        $opcion = trim(fgets(STDIN));
+        llamarFuncionSeleccionadaEmpresa($opcion);
         break;
 
     case 2:
-        echo "viaje";
-        //mostrar menu de viajes;
+        echo menuViaje();
+        echo "\nIngresar opción deseada: ";
+        $opcion = trim(fgets(STDIN));
+        llamarFuncionSeleccionadaViaje($opcion);
         break;
 
     case 3:

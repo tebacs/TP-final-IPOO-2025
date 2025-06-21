@@ -12,32 +12,61 @@ function menuEmpresa(){
     return $opciones;
 }
 
-function listarEmpresasNumeradas() {
-    $resultado = "";
-    $empresas = Empresa::listarEmpresas();
-    if (empty($empresas) || count($empresas) === 0) {
-        $resultado = "No hay empresas registradas.";
-    } else {
-        $resultado = "Listado de Empresas:\n";
-        $i = 1;
-        foreach ($empresas as $empresa) {
-            $resultado .= "#$i " . $empresa->toString() . "\n";
-            $resultado .= "--------------------------------\n";
-            $i++;
-        }
+function llamarFuncionSeleccionadaEmpresa($opcion) {
+    switch ($opcion) {
+        case 1:
+            return listarEmpresasNumeradas();
+        case 2:
+            return buscarEmpresa();
+        case 3:
+            return insertarEmpresa();
+        case 4:
+            return modificarEmpresa();
+        case 5:
+            return eliminarEmpresa();
+        default:
+            return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
     }
-    return $resultado;
+}
+
+function listarEmpresasNumeradas() {
+
+    echo "Listando empresas numeradas...\n";
+
+    // $resultado = "";
+    // $empresas = Empresa::listarEmpresas();
+    // if (empty($empresas) || count($empresas) === 0) {
+    //     $resultado = "No hay empresas registradas.";
+    // } else {
+    //     $resultado = "Listado de Empresas:\n";
+    //     $i = 1;
+    //     foreach ($empresas as $empresa) {
+    //         $resultado .= "#$i " . $empresa->toString() . "\n";
+    //         $resultado .= "--------------------------------\n";
+    //         $i++;
+    //     }
+    // }
+    // return $resultado;
 }
 function buscarEmpresa(){
-
+    echo "Buscando empresa...\n";   
 
 }
 
-function insertarEmpresa($empresa) {}
+function insertarEmpresa($empresa) {
+    echo "Insertando empresa...\n";
+    
+}
 
-function modificarEmpresa($empresa) {}
+function modificarEmpresa($empresa) {
+    echo "Modificando empresa...\n";
+    
+    
+}
 
-function eliminarEmpresa($empresa) {}
+function eliminarEmpresa($empresa) {
+    echo "Eliminando empresa...\n";
+}
 
 
 
