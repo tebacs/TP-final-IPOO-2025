@@ -15,10 +15,12 @@ function llamarFuncionSeleccionadaPersona($opcion) {
     switch ($opcion) {
         case 1:
             return listarPersonas();
+            break;
         case 2:
             echo "Ingrese id: ";
             $id = trim(fgets(STDIN));
             return buscarPersona($id);
+            break;
         case 3:
             echo "Ingrese los datos de la persona:\n";            
             echo "Nombre: ";
@@ -27,12 +29,16 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             $apellido = trim(fgets(STDIN));
             $personaData = new Persona($nombre, $apellido);            
             return insertarPersona($personaData);
+            break;
         case 4:
             return modificarPersona();
+            break;
         case 5:
             return eliminarPersona();
+            break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
+            break;
     }
 }
 
