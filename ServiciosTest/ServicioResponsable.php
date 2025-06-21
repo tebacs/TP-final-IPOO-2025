@@ -16,16 +16,22 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
     switch ($opcion) {
         case 1:
             return listarResponsables();
+            break;
         case 2:
             return buscarResponsable();
+            break;
         case 3:
             return insertarResponsable();
+            break;
         case 4:
             return modificarResponsable();
+            break;
         case 5:
             return eliminarResponsable();
+            break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
+            break;
     }
 }
 
