@@ -111,7 +111,7 @@ class Pasajero extends Persona {
     public function modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
-		$consultaModifica="UPDATE Pasajero SET nombre='".$this->getNombre()."',apellido='".$this->getApellido()."' WHERE idPersona=". parent::getIdPersona();
+		$consultaModifica="UPDATE Pasajero SET documentoPasajero='".$this->getDocumentoPasajero()."',telefonoPasajero='".$this->getTelefonoPasajero()."',idPersona='". parent::getIdPersona()."' WHERE idPersona=". parent::getIdPersona();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
