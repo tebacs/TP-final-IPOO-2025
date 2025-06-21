@@ -81,7 +81,7 @@
             $i=0;
 
             for($i=0; $i<$cantPasajeros; $i++){
-                $mensj .= "\nPasajero:\n-" . $this->getPasajeros()->__toString();
+                $mensj .= "\nPasajero:\n-" . $this->getPasajeros()[$i]->__toString();
             }
             return $mensj;
         }
@@ -94,7 +94,7 @@
          */
         public static function Buscar($id){
             $base= new BaseDatos();
-            $consultaViaje= "Select * from Viaje where idViaje=" . $id;
+            $consultaViaje= "Select * from Viaje where idViaje= '" . $id . "'";
             $resp= false;
 
             if($base->iniciar()){
@@ -152,9 +152,9 @@
         public function Insertar(){
             $base= new BaseDatos();
             $resp= false;
-            $consulta= "INSERT INTO Viaje( destinoViaje, cantMaxPasajeros, idEmpresa, numeroResponsableViaje, importeViaje
-                        VALUES (". $this->getDestino() . ", " .  $this->getMaxPasajeros() . ", " . $this->getIdEmpresa()
-                        . ", " . $this->getResponsableV()->getNumeroResponsable() . ", " . $this->getImporte() . ")";
+            $consulta= "INSERT INTO Viaje( destinoViaje, cantMaxPasajeros, idEmpresa, numeroResponsableViaje, importeViaje) 
+                        VALUES ('". $this->getDestino() . "', '" .  $this->getMaxPasajeros() . "', '" . $this->getIdEmpresa()
+                        . "', '" . $this->getResponsableV()->getNumeroResponsable() . "', '" . $this->getImporte() . "')";
             
             if($base->iniciar()){
                 if($id=$base->devuelveIDInsercion($consulta)){
@@ -172,9 +172,9 @@
         public function Modificar(){
             $base= new BaseDatos();
             $resp=false;
-            $consulta= "UPDATE Viaje SET destinoViaje= " . $this->getDestino() . ", idEmpresa= " . $this->getIdEmpresa()
-                        . ", numeroResponsableViaje= " . $this->getResponsableV()->getNumeroResponsable() . ", importeViaje= " . $this->getImporte() 
-                        . " WHERE idViaje= " . $this->getIdViaje();
+            $consulta= "UPDATE Viaje SET destinoViaje= '" . $this->getDestino() . "', idEmpresa= '" . $this->getIdEmpresa()
+                        . "', numeroResponsableViaje= '" . $this->getResponsableV()->getNumeroResponsable() . "', importeViaje= '" . $this->getImporte() 
+                        . "' WHERE idViaje= '" . $this->getIdViaje() . "'";
             
             if($base->iniciar()){
                 if($base->Ejecutar($consulta)){
@@ -193,7 +193,7 @@
             $resp= false;
 
             if($base->iniciar()){
-                $consulta= "DELETE FROM Viaje WHERE idViaje= " . $this->getIdViaje();
+                $consulta= "DELETE FROM Viaje WHERE idViaje= '" . $this->getIdViaje() . "'";
                 if($base->Ejecutar($consulta)){
                     $resp=true;
                 }else{
