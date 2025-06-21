@@ -1,4 +1,7 @@
+
 CREATE DATABASE bdviajes; 
+
+USE bdviajes;
 
 CREATE TABLE Empresa(
     idEmpresa bigint AUTO_INCREMENT,
@@ -16,10 +19,10 @@ CREATE TABLE Persona(
 
 
 CREATE TABLE Responsable (
-    numeroResponsable bigint AUTO_INCREMENT,
+    numeroResponsable bigint,
     idPersona bigint,
     numeroLicencia bigint,
-    PRIMARY KEY (numeroResponsable, idPersona),
+    PRIMARY KEY (idPersona),
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
@@ -27,7 +30,7 @@ CREATE TABLE Responsable (
 
 CREATE TABLE Pasajero (
     documentoPasajero varchar(15), 
-	telefonoPasajero int, 
+	telefonoPasajero varchar(20), 
     idPersona bigint,
     PRIMARY KEY (idPersona),
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)	
@@ -44,7 +47,7 @@ CREATE TABLE Viaje (
     importeViaje float,
     PRIMARY KEY (idViaje),
     FOREIGN KEY (idEmpresa) REFERENCES Empresa (idEmpresa),
-	FOREIGN KEY (numeroResponsableViaje) REFERENCES Responsable (numeroResponsable)
+	FOREIGN KEY (numeroResponsableViaje) REFERENCES Responsable (idPersona)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
@@ -61,4 +64,5 @@ CREATE TABLE RealizaViaje (
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
