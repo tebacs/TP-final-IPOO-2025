@@ -15,14 +15,19 @@ function llamarFuncionSeleccionadaViaje($opcion) {
     switch ($opcion) {
         case 1:
             return listarViajes();
+            break;
         case 2:
             return buscarViaje();
+            break;
         case 3:
             return insertarViaje();
+            break;
         case 4:
             return modificarViaje();
+            break;
         case 5:
             return eliminarViaje();
+            break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
     }

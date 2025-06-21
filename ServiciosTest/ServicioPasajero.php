@@ -16,10 +16,12 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
     switch ($opcion) {
         case 1:
             return listarPasajeros();
+            break;
         case 2:
             echo "Ingrese el DNI del pasajero a buscar: ";
             $dniPasajero = trim(fgets(STDIN));
             return buscarPasajero($dniPasajero);
+            break;
         case 3:
             echo "Ingrese los datos del pasajero:\n";            
             echo "Nombre: ";
@@ -32,11 +34,14 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
             $telefono = trim(fgets(STDIN));
             $pasajeroData = new Pasajero($nombre, $apellido, $dni, $telefono);            
             return insertarPasajero($pasajeroData);
+            break;
         case 4:
             return modificarPasajero();
+            break;
 
         case 5:
             return eliminarPasajero();
+            break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
     }
