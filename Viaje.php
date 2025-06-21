@@ -123,23 +123,22 @@
          * @return bool
          */
         public static function Listar($condicion=''){
-            $aViaje= null;
+            $aViaje= null; //Arreglo de los viajes si se puede ejecutar la consulta
             $base= new BaseDatos();
-            $consulta= "Select * from Viaje ";
+            $consultaListar= "Select * from Viaje ";
             if($condicion!=''){
-                $consulta .= "where " . $condicion;
+                $consultaListar .= "where " . $condicion;
             }
-            $consulta .= " order by Destino";
+            $consultaListar .= " order by Destino";
 
             if($base->iniciar()){
-                if($base->Ejecutar($consulta)){
+                if($base->Ejecutar($consultaListar)){
                     while($fila=$base->Registro()){
                         $objViaje= new Viaje(
                             $fila['idEmpresa'], $fila['responsableV'], $fila['destino'], $fila['cantMaxPasajeros'], $fila['importeViaje']
                         );
                         $objViaje->setIdViaje($fila['idViaje']);
                         $aViaje[]=$objViaje;
-                        $resp= true;
                     }
                 }else{
                     throw new Exception($base->getError());
@@ -147,7 +146,7 @@
             }else{
                 throw new Exception($base->getError());
             }
-            return $resp;
+            return $aViaje;
         }
 
         public function Insertar(){
@@ -155,7 +154,7 @@
             $resp= false;
             $consulta= "INSERT INTO Viaje( destinoViaje, cantMaxPasajeros, idEmpresa, numeroResponsableViaje, importeViaje
                         VALUES (". $this->getDestino() . ", " .  $this->getMaxPasajeros() . ", " . $this->getIdEmpresa()
-                        . ", " . $this->getResponsableV() . ", " . $this->getImporte() . ")";
+                        . ", " . $this->getResponsableV()->getNumeroResponsable() . ", " . $this->getImporte() . ")";
             
             if($base->iniciar()){
                 if($id=$base->devuelveIDInsercion($consulta)){
@@ -174,7 +173,7 @@
             $base= new BaseDatos();
             $resp=false;
             $consulta= "UPDATE Viaje SET destinoViaje= " . $this->getDestino() . ", idEmpresa= " . $this->getIdEmpresa()
-                        . ", numeroResponsableViaje= " . $this->getResponsableV() . ", importeViaje= " . $this->getImporte() 
+                        . ", numeroResponsableViaje= " . $this->getResponsableV()->getNumeroResponsable() . ", importeViaje= " . $this->getImporte() 
                         . " WHERE idViaje= " . $this->getIdViaje();
             
             if($base->iniciar()){
@@ -186,6 +185,7 @@
             }else{
                 throw new Exception($base->getError());
             }
+            return $resp;
         }
 
         public function Eliminar(){
@@ -202,6 +202,7 @@
             }else{
                 throw new Exception($base->getError());
             }
+            return $resp;
         }
     }
 ?>
