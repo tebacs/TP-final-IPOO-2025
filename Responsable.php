@@ -8,9 +8,9 @@
         private $numeroLicencia;
 
         //METODO CONSTRUCTOR
-        public function __construct($nombre, $apellido, $numeroLicencia){
+        public function __construct($nombre, $apellido,$numeroResponsable, $numeroLicencia){
             parent::__construct($nombre, $apellido);
-            $this -> numeroResponsable = 0;
+            $this -> numeroResponsable = $numeroResponsable;
             $this -> numeroLicencia = $numeroLicencia;
             
         }
@@ -81,7 +81,7 @@
 				$arregloPersona= array();
 				while($fila=$base->Registro()){
 				
-					$responsable = new Responsable($fila['nombre'], $fila['apellido'], $fila['numeroLicencia']);	
+					$responsable = new Responsable($fila['nombre'], $fila['apellido'], $fila['numeroResponsable'], $fila['numeroLicencia']);	
 					array_push($arregloPersona,$responsable);
 				}
 		 	}	else {
