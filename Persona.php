@@ -95,19 +95,14 @@
 					$persona=new Persona($fila['nombre'], $fila['apellido']);
 					
 					array_push($arregloPersona,$persona);
-	
 				}
-				
-			
 		 	}	else {
-		 			throw new Exception($base->getError());
-		 		
+		 		 throw new Exception($base->getError());
 			}
-		 }	else {
+		} else {
 		 		throw new Exception($base->getError());
-		 	
-		 }	
-		 return $arregloPersona;
+		 	}	
+		return $arregloPersona;
 	}	
 
     public function insertar(){
@@ -117,19 +112,14 @@
 				VALUES (".$this->getNombre()."','".$this->getApellido()."')";
 		
 		if($base->Iniciar()){
-
 			if($base->Ejecutar($consultaInsertar)){
-
 			    $resp=  true;
 
 			}	else {
-					throw new Exception($base->getError());
-					
+					throw new Exception($base->getError());		
 			}
-
 		} else {
 				throw new Exception($base->getError());
-			
 		}
 		return $resp;
 	}
