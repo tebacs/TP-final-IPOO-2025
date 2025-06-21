@@ -23,8 +23,18 @@ CREATE TABLE Responsable (
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;;
-	
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+CREATE TABLE Pasajero (
+    documentoPasajero varchar(15), 
+	telefonoPasajero int, 
+    idPersona bigint,
+    PRIMARY KEY (documentoPasajero),
+    FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)	
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
 CREATE TABLE Viaje (
     idViaje bigint AUTO_INCREMENT, /*codigo de viaje*/
 	destinoViaje varchar(150),
@@ -38,16 +48,6 @@ CREATE TABLE Viaje (
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
-	
-CREATE TABLE Pasajero (
-    documentoPasajero varchar(15), 
-	telefonoPasajero int, 
-    idPersona bigint,
-    PRIMARY KEY (documentoPasajero),
-    FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)	
-    ON UPDATE CASCADE
-    ON DELETE RESTRICT
-)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
  
 CREATE TABLE RealizaViaje (
     idViaje bigint,
