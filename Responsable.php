@@ -114,7 +114,7 @@
     public function modificar(){
 	    $resp = false; 
 	    $base = new BaseDatos();
-		$consultaModifica="UPDATE Pasajero SET numeroResponsable='".$this->getNumeroResponsable()."', numeroLicencia='".$this->getNumeroLicencia()."' WHERE idPersona=". parent::getIdPersona();
+		$consultaModifica="UPDATE Responsable SET numeroResponsable='".$this->getNumeroResponsable()."', idPersona='". parent::getIdPersona()."', numeroLicencia='".$this->getNumeroLicencia()."' WHERE idPersona=". parent::getIdPersona();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
@@ -131,7 +131,7 @@
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM Pasajero WHERE idPersona=". parent::getIdPersona();
+				$consultaBorra="DELETE FROM Responsable WHERE idPersona=". parent::getIdPersona();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp= true;
 				}else{
