@@ -1,7 +1,6 @@
 <?php
 
-include_once "Empresa.php";
-include_once "BaseDatos.php";
+include_once  "Empresa.php";
 
 function menuEmpresa(){
     $opciones = "----------MENU EMPRESA----------";
@@ -55,7 +54,7 @@ function listarEmpresasNumeradas() {
     echo "Listando empresas numeradas...\n";
 
     $resultado = "";
-    $empresas = Empresa::listar();
+    $empresas = Empresa::Listar();
     if (empty($empresas) || count($empresas) === 0) {
         $resultado = "No hay empresas registradas.";
     } else {
