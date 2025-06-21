@@ -143,8 +143,4 @@ class Pasajero extends Persona {
     
 }
 
-
-
-
-
 ?>

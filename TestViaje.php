@@ -36,24 +36,28 @@ switch ($opcion) {
         break;
 
     case 3:
-        echo "pasajeros";
-        //mostrar menu de pasajeros;
+        echo menuPasajero();
+        echo "\nIngresar opción deseada: ";
+        $opcion = trim(fgets(STDIN));
+        llamarFuncionSeleccionadaPasajero($opcion);
         break;
 
     case 4:
-        echo "responsables";
-        //mostrar menu de responsables;
+        echo menuResposable();
+        echo "\nIngresar opción deseada: ";
+        $opcion = trim(fgets(STDIN));
+        llamarFuncionSeleccionadaResponsable($opcion);
         break;
 
     case 5:
-        echo "persona";
-        //mostrar menu de persona;
-
+        echo menuPersona();
+        echo "\nIngresar opción deseada: ";
+        $opcion = trim(fgets(STDIN));
+        llamarFuncionSeleccionadaPersona($opcion);
         break;
     case 6:
         echo "Volver a l menú inicial   \n ";
         echo menu1();
-
         break;
     default:
         echo "Opción no válida. Por favor, ingrese una opción del 1 al 6.\n";
