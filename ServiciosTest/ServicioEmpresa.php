@@ -17,9 +17,23 @@ function llamarFuncionSeleccionadaEmpresa($opcion) {
         case 1:
             return listarEmpresasNumeradas();
         case 2:
-            return buscarEmpresa();
+            echo "Ingrese el ID de la empresa a buscar: ";
+            $idEmpresa = trim(fgets(STDIN));
+            if($empresaEncontrada = buscarEmpresa($idEmpresa )!== null) {
+                echo "Empresa encontrada:\n";
+                echo $empresaEncontrada;
+            } else {
+                echo "No se encontró la empresa con ID: $idEmpresa\n";
+            }
+            
         case 3:
-            return insertarEmpresa();
+            echo "Ingrese los datos de la empresa:\n";
+            echo "Nombre: ";
+            $nombre = trim(fgets(STDIN));
+            echo "Dirección: ";
+            $direccion = trim(fgets(STDIN));
+            $empresa = new Empresa($nombre, $direccion);
+            return insertarEmpresa($empresa);
         case 4:
             return modificarEmpresa();
         case 5:
@@ -33,24 +47,23 @@ function listarEmpresasNumeradas() {
 
     echo "Listando empresas numeradas...\n";
 
-    // $resultado = "";
-    // $empresas = Empresa::listarEmpresas();
-    // if (empty($empresas) || count($empresas) === 0) {
-    //     $resultado = "No hay empresas registradas.";
-    // } else {
-    //     $resultado = "Listado de Empresas:\n";
-    //     $i = 1;
-    //     foreach ($empresas as $empresa) {
-    //         $resultado .= "#$i " . $empresa->toString() . "\n";
-    //         $resultado .= "--------------------------------\n";
-    //         $i++;
-    //     }
-    // }
-    // return $resultado;
+    $resultado = "";
+    $empresas = Empresa::listarEmpresas();
+    if (empty($empresas) || count($empresas) === 0) {
+        $resultado = "No hay empresas registradas.";
+    } else {
+        $resultado = "Listado de Empresas:\n";
+        $i = 1;
+        foreach ($empresas as $empresa) {
+            $resultado .= "#$i " . $empresa->toString() . "\n";
+            $resultado .= "--------------------------------\n";
+            $i++;
+        }
+    }
+    return $resultado;
 }
-function buscarEmpresa(){
-    echo "Buscando empresa...\n";   
-
+function buscarEmpresa($idEmpresa){ 
+    return Empresa::Buscar($idEmpresa); 
 }
 
 function insertarEmpresa($empresa) {
