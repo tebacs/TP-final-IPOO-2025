@@ -70,7 +70,7 @@ function listarEmpresasNumeradas() {
         $resultado = "Listado de Empresas:\n";
         $i = 1;
         foreach ($empresas as $empresa) {
-            $resultado .= "#$i " . $empresa->toString() . "\n";
+            $resultado .= "#$i " . $empresa. "\n";
             $resultado .= "--------------------------------\n";
             $i++;
         }

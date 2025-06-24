@@ -56,7 +56,7 @@ class Empresa
     public static function Buscar($id)
     {
         $base = new BaseDatos();
-        $resp = false;
+        $empresaEncontrada=null;
         $consulta = "SELECT * FROM Empresa WHERE idEmpresa= '" . $id . "'";
 
         if ($base->iniciar()) {
