@@ -31,6 +31,9 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             return insertarPersona($personaData);
             break;
         case 4:
+            echo "Ingrese los datos del Pasajero: \n";
+            echo "Nombre: \n";
+            $nombre = trim(fgets(STDIN));
             return modificarPersona();
             break;
         case 5:

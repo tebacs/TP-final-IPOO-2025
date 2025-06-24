@@ -83,7 +83,7 @@ function buscarEmpresa($idEmpresa){
 
 function insertarEmpresa($empresa) {
     if($empresa -> Insertar()) {
-        echo "La empresa se inserto con esxito!\n";
+        echo "La empresa se inserto con exito!\n";
     } else {
         echo "No se puedo insertar la empresa";
     }
