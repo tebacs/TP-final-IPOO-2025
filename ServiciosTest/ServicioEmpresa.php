@@ -38,10 +38,19 @@ function llamarFuncionSeleccionadaEmpresa($opcion) {
             return insertarEmpresa($empresa);
             break;
         case 4:
-            return modificarEmpresa();
+            echo "Ingrese los datos de la empresa a modificar:\n";
+            echo "Nombre: ";
+            $nombre = trim(fgets(STDIN));
+            echo "Ingrese Direccion: ";
+            $direccion = trim(fgets(STDIN));
+            $empresa = new Empresa($nombre, $direccion);
+            return modificarEmpresa($empresa);
             break;
         case 5:
-            return eliminarEmpresa();
+            echo "Ingrese la empresa que quiere eliminar: \n";
+            echo "Ingrese el id: \n";
+            $idEmpresa = trim(fgets(STDIN));
+            return eliminarEmpresa($idEmpresa);
             break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
@@ -73,18 +82,30 @@ function buscarEmpresa($idEmpresa){
 }
 
 function insertarEmpresa($empresa) {
-    echo "Insertando empresa...\n";
+    if($empresa -> Insertar()) {
+        echo "La empresa se inserto con esxito!\n";
+    } else {
+        echo "No se puedo insertar la empresa";
+    }
     
 }
 
 function modificarEmpresa($empresa) {
-    echo "Modificando empresa...\n";
+    if($empresa->Modificar()){
+        echo "La Empresa se modifico con exito!";
+    } else {
+        echo "No se pudo modificar la empresa";
+    }
     
     
 }
 
 function eliminarEmpresa($empresa) {
-    echo "Eliminando empresa...\n";
+    if ($empresa -> eliminar()) {
+        echo "Se elimino la empresa!";
+    } else {
+        echo "NO se pudo eliminar la empresa";
+    }
 }
 
 
