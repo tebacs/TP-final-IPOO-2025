@@ -34,10 +34,16 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             echo "Ingrese los datos del Pasajero: \n";
             echo "Nombre: \n";
             $nombre = trim(fgets(STDIN));
-            return modificarPersona();
+            echo "Apellido: ";
+            $apellido = trim(fgets(STDIN));
+            $personaData = new Persona($nombre, $apellido);
+            return modificarPersona($personaData);
             break;
         case 5:
-            return eliminarPersona();
+            echo "Ingrese la persona que desea eliminar\n";
+            echo "IdPersona: \n";
+            $idPersona = trim(fgets(STDIN));
+            return eliminarPersona($idPersona);
             break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
