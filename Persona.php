@@ -93,7 +93,6 @@
                             $fila['apellido']
                         );
                          $personaEncontrada->setIdPersona($id);
-                        // $resp=true;
                     }
                 } else{
                     throw new Exception($base->getError());

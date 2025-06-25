@@ -39,34 +39,6 @@
             return $mensaje;
         }
 
-        /**
-	 * Recupera los datos de una persona por numero de idPersona
-	 * @param int $idPersona
-	 * return true en caso de encontrar los datos, false en caso contrario 
-	 */		
-    // public function Buscar($numeroResponsable){
-	// 	$base=new BaseDatos();
-	// 	$consultaPersona="SELECT * FROM Responsable WHERE numeroResponsable=". $numeroResponsable;
-	// 	$resp= false;
-	// 	if($base->Iniciar()){
-	// 		if($base->Ejecutar($consultaPersona)){
-	// 			if($fila=$base->Registro()){
-    //                 $this->setNumeroResponsable($fila['numeroResponsable']);					
-	// 				$this->setNumeroLicencia($fila['numeroLicencia']);
-					
-	// 				$resp= true;
-	// 			}				
-			
-	// 	 	}	else {
-	// 	 			throw new Exception($base->getError());
-		 		
-	// 		}
-	// 	 }	else {
-	// 	 		throw new Exception($base->getError());
-		 	
-	// 	 }		
-	// 	 return $resp;
-	// }
 	public static function Buscar($id){
 		$persona = Persona::Buscar($id);
 		if($persona !== null){
@@ -84,7 +56,6 @@
 					);
 					$responsableEncontrado->setIdPersona($id);
 						
-						// $resp= true;
 					}				
 				
 				}	else {
