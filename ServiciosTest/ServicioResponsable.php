@@ -119,7 +119,7 @@ function insertarResponsable(Responsable $responsable) {
     return $respuesta;
 }
 
-function modificarResponsable($responsable) {
+function modificarResponsable(Responsable $responsable) {
    if($responsable->Modificar()){
         echo "El responsable se modifico con exito!";
     } else {

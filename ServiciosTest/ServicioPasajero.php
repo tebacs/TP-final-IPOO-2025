@@ -2,7 +2,8 @@
 include_once "BaseDatos.php";
 include_once "Persona.php";
 include_once "Pasajero.php";
-function menuPasajero() {
+function menuPasajero()
+{
     $opciones = "----------MENU PASAJERO----------";
     $opciones .= "\n1. Listar Pasajeros";
     $opciones .= "\n2. Buscar Pasajero";
@@ -12,7 +13,8 @@ function menuPasajero() {
     return $opciones;
 }
 
-function llamarFuncionSeleccionadaPasajero($opcion) {
+function llamarFuncionSeleccionadaPasajero($opcion)
+{
     switch ($opcion) {
         case 1:
             echo listarPasajeros();
@@ -21,7 +23,7 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
             echo "Ingrese el ID del pasajero: ";
             $idPersona = trim(fgets(STDIN));
             $pasajeroEncontrado = buscarPasajero($idPersona);
-            if($pasajeroEncontrado!== null) {
+            if ($pasajeroEncontrado !== null) {
                 echo "pasajero encontrado:\n";
                 echo $pasajeroEncontrado;
             } else {
@@ -33,7 +35,7 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
             echo "ID persona: ";
             $idPersona = trim(fgets(STDIN));
             $persona = Persona::Buscar($idPersona);
-            if($persona!==null){
+            if ($persona !== null) {
                 echo "Numero documento: ";
                 $nroDocumento = trim(fgets(STDIN));
                 echo "Numero telefono: ";
@@ -44,12 +46,28 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
                 $pasajero = new Pasajero($nombre, $apellido, $nroDocumento, $nroTelefono);
                 $pasajero->setIdPersona($idPersona);
                 echo insertarPasajero($pasajero);
-                }else{
+            } else {
                 echo "No existe una persona con ese ID.\n";
             }
             break;
         case 4:
-            return modificarPasajero();
+            echo "Ingrese el ID del pasajero a modificar:\n";
+            $idPasajero = trim(fgets(STDIN));
+            $pasajero = Pasajero::Buscar($idPasajero);
+            if ($pasajero !== null) {
+                echo "Nuevo numero de Documento: ";
+                $nuevoNroDoc = trim(fgets(STDIN));
+                echo "Nuevo numero de telefono: ";
+                $nuevoNroTel = trim(fgets(STDIN));
+
+                $pasajero->setDocumentoPasajero($nuevoNroDoc);
+                $pasajero->setTelefonoPasajero($nuevoNroTel);
+                
+                echo modificarPasajero($pasajero);
+            } else {
+                echo "no existe el Pasajero";
+            }
+
             break;
 
         case 5:
@@ -60,7 +78,8 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
     }
 }
 
-function listarPasajeros() {
+function listarPasajeros()
+{
     echo "Listando pasajeros...\n";
 
     $resultado = "";
@@ -71,7 +90,7 @@ function listarPasajeros() {
         $resultado = "Listado de pasajeros:\n";
         $i = 1;
         foreach ($pasajeros as $pasajero) {
-            $resultado .= "#$i " . $pasajero. "\n";
+            $resultado .= "#$i " . $pasajero . "\n";
             $resultado .= "--------------------------------\n";
             $i++;
         }
@@ -81,23 +100,32 @@ function listarPasajeros() {
 
 }
 
-function buscarPasajero($dniPasajero) {
-    return Pasajero::Buscar($dniPasajero) ;
+function buscarPasajero($dniPasajero)
+{
+    return Pasajero::Buscar($dniPasajero);
 }
 
-function insertarPasajero($pasajero) {
-    echo "Insertando pasajero...\n";   
+function insertarPasajero($pasajero)
+{
+    echo "Insertando pasajero...\n";
     $pasajero->insertar();
     echo "Pasajero insertado correctamente.\n";
-    
+
 
 }
 
-function modificarPasajero($pasajero) {
+function modificarPasajero(Pasajero $pasajero)
+{
     echo "Modificando pasajero...\n";
+    if ($pasajero->Modificar()) {
+        echo "El responsable se modifico con exito!";
+    } else {
+        echo "No se pudo modificar el responsable";
+    }
 
 }
-function eliminarPasajero($pasajero) {
-    echo "Eliminando pasajero...\n";   
- 
+function eliminarPasajero($pasajero)
+{
+    echo "Eliminando pasajero...\n";
+
 }
