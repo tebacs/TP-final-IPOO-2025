@@ -111,7 +111,7 @@ function listarViajes() {
 
     $resultado= "Listando viajes numerados...\n";
 
-    $viajes = Viaje::listar();
+    $viajes = Viaje::Listar();
     if (empty($viajes) || count($viajes) === 0) {
         $resultado .= "No hay viajes registrados.";
     } else {
