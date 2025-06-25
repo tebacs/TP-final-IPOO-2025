@@ -97,6 +97,8 @@ class Empresa
         $consulta = "SELECT * FROM Empresa";
         if ($condicion != '') {
             $consulta .= " WHERE "  . $condicion . " AND borrado IS NULL";
+        } else {
+            $consulta .= " WHERE borrado IS NULL";
         }
 
         $consulta .= " order by idEmpresa";
