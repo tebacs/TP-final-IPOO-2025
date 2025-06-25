@@ -93,7 +93,7 @@ class BaseDatos
      *
      * @return boolean
      */
-    public  function iniciar(){
+    public  function Iniciar(){
         $exito  = false;
 
         $conexion = mysqli_connect(
