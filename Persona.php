@@ -54,7 +54,7 @@
             $consulta= "SELECT * FROM Persona WHERE idPersona= '" . $id . "'AND borrado IS NULL";
 			$personaEncontrada = null;
 
-            if($base->iniciar()){
+            if($base->Iniciar()){
                 if($base->Ejecutar($consulta)){
                     if($fila=$base->Registro()){
 						if (is_array($fila)) {
@@ -76,7 +76,7 @@
             return $personaEncontrada;
         }
 
-    public static function listar($condicion=""){
+    public static function Listar($condicion=""){
 	    $arregloPersona = null;
 		$base = new BaseDatos();
 		$consultaPersonas="SELECT * FROM Persona ";
@@ -106,7 +106,7 @@
 		return $arregloPersona;
 	}	
 
-    public function insertar(){
+    public function Insertar(){
 		$base = new BaseDatos();
 		$resp= false;
 		$consultaInsertar="INSERT INTO persona(nombre, apellido) 
@@ -125,7 +125,7 @@
 		return $resp;
 	}
 
-    public function modificar(){
+    public function Modificar(){
 	    $resp =false; 
 	    $base = new BaseDatos();
 		$consultaModifica="UPDATE Persona SET idPersona='".$this->getIdPersona()."',nombre='".$this->getNombre()."',apellido='".$this->getApellido()."' WHERE idPersona=". $this->getIdPersona();
@@ -141,7 +141,7 @@
 		return $resp;
 	}
 
-    public function eliminar(){
+    public function Eliminar(){
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){

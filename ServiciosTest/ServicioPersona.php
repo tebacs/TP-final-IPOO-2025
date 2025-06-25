@@ -34,7 +34,7 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             echo "Apellido: ";
             $apellido = trim(fgets(STDIN));
             $personaData = new Persona($nombre, $apellido);            
-            return insertarPersona($personaData);
+            echo insertarPersona($personaData);
             break;
         case 4:
             echo "Ingrese el ID de la persona a modificar \n";
@@ -64,7 +64,7 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             }
             break;
         default:
-            return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
+            echo "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
             break;
     }
 }
@@ -93,7 +93,7 @@ function buscarPersona($idPersona) {
 }
 
 function insertarPersona($persona) { 
-    if($persona->insertar()){
+    if($persona->Insertar()){
         echo "La persona se inserto con exito!\n";
     }else{
         echo "No se pudo insertar la persona.\n";
@@ -101,7 +101,7 @@ function insertarPersona($persona) {
 }
 
 function modificarPersona($persona) {
-    if($persona->modificar()){
+    if($persona->Modificar()){
         echo "La persona se modifico con exito!\n";
     }else{
         echo "No se pudo modificar la persona.\n";
@@ -109,7 +109,7 @@ function modificarPersona($persona) {
 }
 
 function eliminarPersona($persona) {
-    if($persona->eliminar()){
+    if($persona->Eliminar()){
         echo "se elimino la persona con exito.\n";
     }else{
         echo "no se pudo eliminar la persona.\n";

@@ -6,8 +6,7 @@ function menuRealizaViaje(){
     $opciones.= "\n1. Listar Viajes Realizados";
     $opciones.= "\n2. Buscar Viaje Realizado";
     $opciones .= "\n3. Insertar Viaje Realizado";
-    $opciones .= "\n4. Modificar Viaje Realizado";
-    $opciones .= "\n5. Eliminar Viaje Realizado";
+    $opciones .= "\n4. Eliminar Viaje Realizado";
     return $opciones;
 }
 
@@ -37,10 +36,44 @@ function llamarFuncionSeleccionadaRealizaViaje($opcion){
             $idViaje= trim(fgets(STDIN));
             echo "\nID Pasajero:";
             $idPasajero= trim(fgets(STDIN));
-            echo "\nFecha:";
-            $fecha= trim(fgets(STDIN));
-            $viaje= Viaje::Buscar($idViaje);  
+            $viaje= Viaje::Buscar($idViaje);
+            $pasajero= Pasajero::Buscar($idPasajero);
+            if($viaje!=null){
+                if($pasajero!=null){
+                    $cantPasajerosMax= $viaje->getMaxPasajeros();
+                    $colPasajeros= $viaje->getPasajeros();
+                    //verifico que se admita un pasajero mas al viaje
+                    if(count($colPasajeros)+1 <= $cantPasajerosMax){
+                        //pido los datos faltantes, creo una nueva tabla y agrego el pasajero a la coleccion de pasajeros del viaje
+                        echo "\nFecha:";
+                        $fecha= trim(fgets(STDIN));
+                        $realizaViaje= new RealizaViaje($idViaje,$idPasajero,$fecha);
+                        $viaje->setPasajeros[]=$pasajero;
+                    }else{
+                        echo "El viaje no admite mas pasajeros\n";
+                    }
+                }else{
+                    echo "No existe el pasajero con ID:$idPasajero\n";
+                }
+            }else{
+                echo "No existe el viaje con ID:$idViaje\n";
             }
+            break;
+        case 4://Eliminar
+            echo "Va eliminar un RealizaViaje\nIngrese los datos del viaje y del pasajero\n";
+            echo "ID Viaje:";
+            $idViaje= trim(fgets(STDIN));
+            echo "\nID Pasajero:";
+            $idPasajero= trim(fgetc(STDIN));
+            $realizaViaje= RealizaViaje::Buscar($idPasajero,$idViaje);
+            if( $realizaViaje != null){
+                echo eliminarRealizaViaje($idPasajero,$idViaje);
+            }else{
+                echo "No se encontró el viaje realizado con Pasajero de ID: $idPasajero y Viaje con ID: $idViaje\n";
+            }
+            break;
+        default:
+            return "Opción no válida. Por favor, ingrese una opción del 1 al 4.";
     }
 }
 
@@ -76,16 +109,6 @@ function insertarRealizaViaje(RealizaViaje $realizaViaje){
     return $resultado;
 }
 
-function modificarRealizaViaje(RealizaViaje $realizaViaje){
-    $resultado="";
-
-    if($realizaViaje->Modificar()){
-        $resultado.= "El viaje realizado se modificó con éxito!\n";
-    }else{
-        $resultado.= "No se pudo modificar el viaje realizado\n";
-    }
-    return $resultado;
-}
 
 function eliminarRealizaViaje($idPasajero,$idViaje){
     $resultado="";
