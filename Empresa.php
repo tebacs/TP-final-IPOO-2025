@@ -62,12 +62,16 @@ class Empresa
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 if ($fila = $base->Registro()) {
+                    if(is_array($fila)){                                           
                     $empresaEncontrada = new Empresa(
                         $fila['empresaNombre'],
-                        $fila['empresaDireccion']
+                        $fila['empresaDireccion']                    
                     );
                     $empresaEncontrada->setIdEmpresa($id);
                     //$resp=true;
+                }
+                } else {
+                    throw new Exception("No se encontró la empresa con ID: " . $id);
                 }
             } else {
                 throw new Exception($base->getError());
@@ -78,7 +82,7 @@ class Empresa
         //return $resp;
         return $empresaEncontrada;
     }
-
+    
 
     /**
      * Recupera las empresas según su id

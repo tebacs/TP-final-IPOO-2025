@@ -16,21 +16,24 @@ function menuEmpresa()
 function llamarFuncionSeleccionadaEmpresa($opcion)
 {
     switch ($opcion) {
-        case 1://listar empresas
+        case 1: //listar empresas
             echo listarEmpresasNumeradas();
             break;
-        case 2://buscar empresa por id
+        case 2: //buscar empresa por id
             echo "Ingrese el ID de la empresa a buscar: ";
             $idEmpresa = trim(fgets(STDIN));
-            if ($empresaEncontrada = buscarEmpresa($idEmpresa) !== null) {
+            $empresaEncontrada = buscarEmpresa($idEmpresa);
+            if ($empresaEncontrada != null) {
                 echo "Empresa encontrada:\n";
-                echo $empresaEncontrada;
+                echo "ID: ".$empresaEncontrada->getIdEmpresa() . "\n";
+                echo "Nombre: ".$empresaEncontrada->getEmpresaNombre() . "\n";
+                echo "Dirección: ".$empresaEncontrada->getEmpresaDireccion() . "\n";
             } else {
                 echo "No se encontró la empresa con ID: $idEmpresa\n";
             }
             break;
 
-        case 3://insertar empresa
+        case 3: //insertar empresa
             echo "Ingrese los datos de la empresa:\n";
             echo "Nombre: ";
             $nombre = trim(fgets(STDIN));
@@ -39,7 +42,7 @@ function llamarFuncionSeleccionadaEmpresa($opcion)
             $empresa = new Empresa($nombre, $direccion);
             echo insertarEmpresa($empresa);
             break;
-        case 4://modificar empresa
+        case 4: //modificar empresa
             echo "Ingrese los datos de la empresa a modificar:\n";
             echo "Nombre: ";
             $nombre = trim(fgets(STDIN));
@@ -82,7 +85,14 @@ function listarEmpresasNumeradas()
 }
 function buscarEmpresa($idEmpresa)
 {
-    return Empresa::Buscar($idEmpresa);
+    //primero se verifica que existe la empresa,
+    // y si exite nos traemos el objeto completo de empresa 
+    $empresa = null;
+    $empresa = Empresa::Buscar($idEmpresa);
+
+    return $empresa;
+
+
 }
 
 function insertarEmpresa(Empresa $empresa)
@@ -94,7 +104,6 @@ function insertarEmpresa(Empresa $empresa)
         $resultado = "No se puedo insertar la empresa\n";
     }
     return $resultado;
-
 }
 
 function modificarEmpresa(Empresa $empresa)
@@ -106,7 +115,6 @@ function modificarEmpresa(Empresa $empresa)
         $resultado = "No se pudo modificar la empresa\n";
     }
     return $resultado;
-
 }
 
 function eliminarEmpresa($idEmpresa)
@@ -122,7 +130,6 @@ function eliminarEmpresa($idEmpresa)
     if ($empresa != null) {
         if ($empresa->Eliminar()) {
             $resultado = "Se elimino la empresa!\n";
-
         } else {
             $resultado = "NO se pudo eliminar la empresa\n";
         }
@@ -131,8 +138,3 @@ function eliminarEmpresa($idEmpresa)
     }
     return $resultado;
 }
-
-
-
-
-
