@@ -57,17 +57,22 @@ class Empresa
     {
         $base = new BaseDatos();
         $empresaEncontrada=null;
-        $consulta = "SELECT * FROM Empresa WHERE idEmpresa= '" . $id . "'";
+        $consulta = "SELECT * FROM Empresa WHERE idEmpresa= '" . $id . "' AND borrado IS NULL";
 
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 if ($fila = $base->Registro()) {
+                    $empresaEncontrada = null;
+                    if(is_array($fila)){                                           
                     $empresaEncontrada = new Empresa(
                         $fila['empresaNombre'],
-                        $fila['empresaDireccion']
+                        $fila['empresaDireccion']                    
                     );
                     $empresaEncontrada->setIdEmpresa($id);
                     //$resp=true;
+                } 
+                } else {
+                    throw new Exception("No se encontró la empresa con ID: " . $id);
                 }
             } else {
                 throw new Exception($base->getError());
@@ -78,7 +83,7 @@ class Empresa
         //return $resp;
         return $empresaEncontrada;
     }
-
+    
 
     /**
      * Recupera las empresas según su id
@@ -91,7 +96,9 @@ class Empresa
         $base = new BaseDatos();
         $consulta = "SELECT * FROM empresa";
         if ($condicion != '') {
-            $consulta .= " WHERE " . $condicion;
+            $consulta .= " WHERE "  . $condicion . " AND borrado IS NULL";
+        } else {
+            $consulta .= " WHERE borrado IS NULL";
         }
 
         $consulta .= " order by idEmpresa";
@@ -159,7 +166,7 @@ class Empresa
         $resp = false;
 
         if ($base->iniciar()) {
-            $consulta = "DELETE FROM Empresa WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
+            $consulta = "UPDATE Empresa SET borrado= CURRENT_DATE WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
             if ($base->Ejecutar($consulta)) {
                 $resp = true;
             } else {
@@ -170,6 +177,24 @@ class Empresa
         }
         return $resp;
     }
+
+    //     public function Eliminar()
+    // {
+    //     $base = new BaseDatos();
+    //     $resp = false;
+
+    //     if ($base->iniciar()) {
+    //         $consulta = "DELETE FROM Empresa WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
+    //         if ($base->Ejecutar($consulta)) {
+    //             $resp = true;
+    //         } else {
+    //             throw new Exception($base->getError());
+    //         }
+    //     } else {
+    //         throw new Exception($base->getError());
+    //     }
+    //     return $resp;
+    // }
 
 }
 

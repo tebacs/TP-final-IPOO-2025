@@ -7,6 +7,7 @@ CREATE TABLE Empresa(
     idEmpresa bigint AUTO_INCREMENT,
     empresaNombre varchar(150),
     empresaDireccion varchar(150),
+    borrado date DEFAULT NULL,
     PRIMARY KEY (idEmpresa) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
