@@ -43,20 +43,26 @@
 		$persona = Persona::Buscar($id);
 		if($persona !== null){
 			$base=new BaseDatos();
-			$consultaPersona="SELECT * FROM Responsable WHERE idPersona=". $id;
-			$responsableEncontrado= null;
+			$consultaPersona="SELECT * FROM Responsable WHERE idPersona=". $id . " AND borrado IS NULL";
+			
 			if($base->Iniciar()){
 				if($base->Ejecutar($consultaPersona)){
 					
 					if($fila=$base->Registro()){
-						$responsableEncontrado = new Responsable($persona->getNombre(),
-						$persona->getApellido(),
-						$fila['numeroResponsable'],					
-						$fila['numeroLicencia']
-					);
-					$responsableEncontrado->setIdPersona($id);
+						$responsableEncontrado = null;
+						if (is_array($fila)) {
+							$responsableEncontrado = new Responsable($persona->getNombre(),
+							$persona->getApellido(),
+							$fila['numeroResponsable'],					
+							$fila['numeroLicencia']
+							);
+							$responsableEncontrado->setIdPersona($id);
+						}
 						
-					}				
+						
+					} else {
+						throw new Exception("No se encontro el responsable con id " . $id);
+					}			
 				
 				}	else {
 						throw new Exception($base->getError());
@@ -72,23 +78,25 @@
 	}
     public static function listar($condicion=""){
 	    $arregloResponsable = null;
-		$base=new BaseDatos();
-		$consultaPersonas="SELECT * FROM Responsable ";
+		$base = new BaseDatos();
+		$consultaResponsable="SELECT * FROM Responsable ";
 		if ($condicion!=""){
-		    $consultaPersonas=$consultaPersonas.' WHERE '.$condicion;
+		    $consultaResponsable .= ' WHERE '. $condicion . "AND borrado IS NULL";
+		} else {
+			$consultaResponsable .= "WHERE borrado IS NULL";
 		}
-		$consultaPersonas.=" order by numeroResponsable ";
+		$consultaResponsable.=" order by numeroResponsable ";
 		//echo $consultaPersonas;
 		if($base->Iniciar()){
-			if($base->Ejecutar($consultaPersonas)){				
-				$arregloResponsable= array();
+			if($base->Ejecutar($consultaResponsable)){				
+				
 				while($fila=$base->Registro()){
 					$persona = Persona::Buscar($fila['idPersona']);
 					$nombre = $persona->getNombre();
 					$apellido = $persona->getApellido();
 					$responsable = new Responsable($nombre, $apellido, $fila['numeroResponsable'], $fila['numeroLicencia']);	
 					$responsable->setIdPersona($fila['idPersona']);
-					array_push($arregloResponsable,$responsable);
+					$arregloResponsable[] = $responsable;
 				}
 		 	}	else {
 		 			throw new Exception($base->getError());	
@@ -106,8 +114,9 @@
 			VALUES (".$this->getNumeroResponsable(). ",".parent::getIdPersona(). "," .$this->getNumeroLicencia() .")";
 		
 		if($base->Iniciar()){
-			if($base->Ejecutar($consultaInsertar)){
-			    $resp=  true;
+			if($id = $base->devuelveIDInsercion($consultaInsertar)){
+			    $this -> setIdPersona($id);
+				$resp=  true;
 			} else {
 				 throw new Exception($base->getError());	
 			    }
@@ -137,7 +146,7 @@
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM Responsable WHERE idPersona=". parent::getIdPersona();
+				$consultaBorra="UPDATE Responsable SET borrado = CURRENT_DATE WHERE idPersona=". parent::getIdPersona();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp= true;
 				}else{
