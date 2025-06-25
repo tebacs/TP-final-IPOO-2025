@@ -77,7 +77,7 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
             }
             break;
         default:
-            return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
+            echo "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
             break;
     }
 }
@@ -127,7 +127,7 @@ function modificarResponsable(Responsable $responsable) {
     }
 }
 
-function eliminarResponsable($responsable) {
+function eliminarResponsable(Responsable $responsable) {
     if ($responsable -> eliminar()) {
         echo "Se elimino el responsable!\n";
     } else {

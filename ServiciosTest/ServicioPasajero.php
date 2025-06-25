@@ -62,7 +62,7 @@ function llamarFuncionSeleccionadaPasajero($opcion)
 
                 $pasajero->setDocumentoPasajero($nuevoNroDoc);
                 $pasajero->setTelefonoPasajero($nuevoNroTel);
-                
+
                 echo modificarPasajero($pasajero);
             } else {
                 echo "no existe el Pasajero";
@@ -71,7 +71,15 @@ function llamarFuncionSeleccionadaPasajero($opcion)
             break;
 
         case 5:
-            return eliminarPasajero();
+            echo "Ingrese el pasajero que quiere eliminar: \n";
+            echo "Ingrese el id: \n";
+            $idPasajero = trim(fgets(STDIN));
+            $pasajero = Pasajero::Buscar($idPasajero);
+            if ($pasajero !== null) {
+                echo eliminarPasajero($pasajero);
+            } else {
+                echo "No existe ningun pasajero con este ID";
+            }
             break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
@@ -124,8 +132,12 @@ function modificarPasajero(Pasajero $pasajero)
     }
 
 }
-function eliminarPasajero($pasajero)
+function eliminarPasajero(Pasajero $pasajero)
 {
-    echo "Eliminando pasajero...\n";
+      if ($pasajero -> eliminar()) {
+        echo "Se elimino el Pasajero!\n";
+    } else {
+        echo "NO se pudo eliminar el pasajero.\n";
+    }
 
 }
