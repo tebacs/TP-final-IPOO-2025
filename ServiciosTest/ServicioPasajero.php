@@ -18,22 +18,35 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
             return listarPasajeros();
             break;
         case 2:
-            echo "Ingrese el DNI del pasajero a buscar: ";
-            $dniPasajero = trim(fgets(STDIN));
-            return buscarPasajero($dniPasajero);
+            echo "Ingrese el ID del pasajero: ";
+            $idPersona = trim(fgets(STDIN));
+            $pasajeroEncontrado = buscarPasajero($idPersona);
+            if($pasajeroEncontrado!== null) {
+                echo "pasajero encontrado:\n";
+                echo $pasajeroEncontrado;
+            } else {
+                echo "No se encontró el pasajero con ID: $idPersona\n";
+            }
             break;
         case 3:
-            echo "Ingrese los datos del pasajero:\n";            
-            echo "Nombre: ";
-            $nombre = trim(fgets(STDIN));
-            echo "Apellido: ";
-            $apellido = trim(fgets(STDIN));
-            echo "Documento: ";
-            $dni = trim(fgets(STDIN));
-            echo "Teléfono: ";
-            $telefono = trim(fgets(STDIN));
-            $pasajeroData = new Pasajero($nombre, $apellido, $dni, $telefono);            
-            return insertarPasajero($pasajeroData);
+            echo "Ingrese los datos del pasajero:\n";
+            echo "ID persona: ";
+            $idPersona = trim(fgets(STDIN));
+            $persona = Persona::Buscar($idPersona);
+            if($persona!==null){
+                echo "Numero documento: ";
+                $nroDocumento = trim(fgets(STDIN));
+                echo "Numero telefono: ";
+                $nroTelefono = trim(fgets(STDIN));
+                $nombre = $persona->getNombre();
+                $apellido = $persona->getApellido();
+
+                $pasajero = new Pasajero($nombre, $apellido, $nroDocumento, $nroTelefono);
+                $pasajero->setIdPersona($idPersona);
+                echo insertarPasajero($pasajero);
+                }else{
+                echo "No existe una persona con ese ID.\n";
+            }
             break;
         case 4:
             return modificarPasajero();
@@ -54,7 +67,7 @@ function listarPasajeros() {
 }
 
 function buscarPasajero($dniPasajero) {
-    echo "Buscando pasajero...\n";   
+    return Pasajero::Buscar($dniPasajero) ;
 }
 
 function insertarPasajero($pasajero) {

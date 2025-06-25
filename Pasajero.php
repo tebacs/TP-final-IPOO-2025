@@ -37,6 +37,7 @@ class Pasajero extends Persona {
 
 	public static function Buscar($id){
 		$persona = Persona::Buscar($id);
+		$pasajeroEncontrado = null;
 
 		if($persona !== null){
 			$base = new BaseDatos();
@@ -110,11 +111,10 @@ class Pasajero extends Persona {
 		$base = new BaseDatos();
 		$resp = false;
 		$consultaInsertar = "INSERT INTO Pasajero(documentoPasajero, telefonoPasajero, idPersona) 
-				VALUES (".$this->getDocumentoPasajero(). "','".$this->getTelefonoPasajero(). "','" . parent::getIdPersona()."')";
+				VALUES ('".$this->getDocumentoPasajero(). "','".$this->getTelefonoPasajero(). "'," . parent::getIdPersona().")";
 		
 		if($base->Iniciar()){
-			if($id=$base->devuelveIDInsercion($consultaInsertar)){
-			    $this -> setIdPersona($id);
+			if($base->Ejecutar($consultaInsertar)){
 				$resp=  true;
 			} else {
 					throw new Exception($base->getError());	
