@@ -34,7 +34,7 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             echo "Apellido: ";
             $apellido = trim(fgets(STDIN));
             $personaData = new Persona($nombre, $apellido);            
-            return insertarPersona($personaData);
+            echo insertarPersona($personaData);
             break;
         case 4:
             echo "Ingrese el ID de la persona a modificar \n";
@@ -64,7 +64,7 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             }
             break;
         default:
-            return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
+            echo "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
             break;
     }
 }
