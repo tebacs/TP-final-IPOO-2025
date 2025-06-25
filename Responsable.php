@@ -40,18 +40,18 @@
         }
 
 	public static function Buscar($id){
+		$responsableEncontrado = null;
 		$persona = Persona::Buscar($id);
 		if($persona !== null){
 			$base=new BaseDatos();
 			$consultaPersona="SELECT * FROM Responsable WHERE idPersona=". $id . " AND borrado IS NULL";
 			
 			if($base->Iniciar()){
-				if($base->Ejecutar($consultaPersona)){
-					
-					if($fila=$base->Registro()){
-						$responsableEncontrado = null;
+				if($base->Ejecutar($consultaPersona)){					
+					if($fila=$base->Registro()){						
 						if (is_array($fila)) {
-							$responsableEncontrado = new Responsable($persona->getNombre(),
+							$responsableEncontrado = new Responsable(
+							$persona->getNombre(),
 							$persona->getApellido(),
 							$fila['numeroResponsable'],					
 							$fila['numeroLicencia']
