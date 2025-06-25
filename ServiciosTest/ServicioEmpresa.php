@@ -43,10 +43,14 @@ function llamarFuncionSeleccionadaEmpresa($opcion)
             echo insertarEmpresa($empresa);
             break;
         case 4: //modificar empresa
+            //para modificar una empresa deberia solicitar el id de empresa,
+            //buscar la empresa, mostrarla al usuario y preguntarle los nuevos datos
             echo "Ingrese los datos de la empresa a modificar:\n";
             echo "Id: ";
             $id = trim(fgets(STDIN));
             $empresaParaEditar = buscarEmpresa($id);
+            //si la empresa no existe, se devuelve un mensaje de error
+            //si existe, se muestra la empresa y se le pide al usuario los nuevos datos
             if ($empresaParaEditar == null) {
                 echo "No se encontró la empresa con ID: $id\n";
                 return;
@@ -56,14 +60,19 @@ function llamarFuncionSeleccionadaEmpresa($opcion)
                 echo "Nombre: " . $empresaParaEditar->getEmpresaNombre() . "\n";
                 echo "Dirección: " . $empresaParaEditar->getEmpresaDireccion() . "\n";
             }
-            echo "Ingrese nuevo Nombre: ";
+            echo "Ingrese nuevo Nombre: ";// Solicitar al usuario el nuevo nombre
+            //y la nueva direccion
             $nombreNuevo = trim(fgets(STDIN));
             echo "Ingrese nueva Direccion: ";
             $direccionNueva = trim(fgets(STDIN));
+            // Crear un nuevo objeto Empresa con los datos actualizados
+            //y asignarle el id de la empresa a editar
             $empresaEditada = new Empresa($nombreNuevo, $direccionNueva);
             $empresaEditada->setIdEmpresa($id); // Asignar el ID de la empresa a editar
             echo "Datos de la empresa a modificar:\n";
             echo modificarEmpresa($empresaEditada);
+            // Llamar a la función modificarEmpresa para actualizar los datos
+            //y mostrar el resultado de la operación
             echo buscarEmpresa($id);
             break;
         case 5:
