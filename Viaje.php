@@ -28,7 +28,7 @@
         public function setIdViaje($nuevo){
             $this->idViaje=$nuevo;
         }
-//
+
         public function getDestino(){
             return $this->destino;
         }
@@ -36,14 +36,14 @@
         public function setDestino($nuevo){
             $this->destino=$nuevo;
         }
-//
+
         public function getIdEmpresa(){
             return $this->idEmpresa;
         }
         public function setIdEmpresa($idEmpresa) {
             $this->idEmpresa= $idEmpresa;
         }
-//
+
 
         public function getPasajeros(){
             return $this->colPasajeros;
@@ -52,7 +52,7 @@
         public function setPasajeros($nuevo){
             $this->colPasajeros=$nuevo;
         }
-//
+
         public function getResponsableV(){
             return $this->refResponsableV;
         }
@@ -60,7 +60,7 @@
         public function setResponsableV($nuevo){
             $this->refResponsableV=$nuevo;
         }
-//
+
         public function getMaxPasajeros(){
             return $this->cantMaxPasajeros;
         }
@@ -68,7 +68,7 @@
         public function setMaxPasajeros($nuevo){
             $this->cantMaxPasajeros=$nuevo;
         }
-//
+
         public function getImporte(){
             return $this->importeViaje;
         }
@@ -76,7 +76,7 @@
         public function setImporte($nuevo){
             $this->importeViaje=$nuevo;
         }
-//
+
         public function __tostring(){
             $mensj= "El viaje " . $this->getIdViaje() ." con destino a " . $this->getDestino(). "\nLo realiza la empresa: " . $this->getIdEmpresa() .
              "\nCon un máximo de " . $this->getMaxPasajeros(). " pasajeros.\nSu responsable es " . $this->getResponsableV() . "\nTiene un importe $" . $this->getImporte();

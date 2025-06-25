@@ -69,7 +69,6 @@ class Empresa
                         $fila['empresaDireccion']                    
                     );
                     $empresaEncontrada->setIdEmpresa($id);
-                    //$resp=true;
                 } 
                 } else {
                     throw new Exception("No se encontró la empresa con ID: " . $id);
@@ -80,21 +79,19 @@ class Empresa
         } else {
             throw new Exception($base->getError());
         }
-        //return $resp;
+        
         return $empresaEncontrada;
     }
     
 
     /**
      * Recupera las empresas según su id
-     * @param mixed $condicion
-     * @return void
      */
     public static function Listar($condicion = '')
     {
         $aEmpresa = null;
         $base = new BaseDatos();
-        $consulta = "SELECT * FROM empresa";
+        $consulta = "SELECT * FROM Empresa";
         if ($condicion != '') {
             $consulta .= " WHERE "  . $condicion . " AND borrado IS NULL";
         } else {
@@ -178,23 +175,7 @@ class Empresa
         return $resp;
     }
 
-    //     public function Eliminar()
-    // {
-    //     $base = new BaseDatos();
-    //     $resp = false;
-
-    //     if ($base->iniciar()) {
-    //         $consulta = "DELETE FROM Empresa WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
-    //         if ($base->Ejecutar($consulta)) {
-    //             $resp = true;
-    //         } else {
-    //             throw new Exception($base->getError());
-    //         }
-    //     } else {
-    //         throw new Exception($base->getError());
-    //     }
-    //     return $resp;
-    // }
+    
 
 }
 

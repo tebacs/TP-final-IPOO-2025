@@ -35,35 +35,6 @@ class Pasajero extends Persona {
         return $mensaje;
     }
 
-    /**
-	 * Recupera los datos de una persona por numero de idPersona
-	 * @param int $idPersona
-	 * return true en caso de encontrar los datos, false en caso contrario 
-	 */		
-    // public function Buscar($documentoPasajero){
-	// 	$base=new BaseDatos();
-	// 	$consultaPersona="SELECT * from Pasajero WHERE documentoPasajero=" . $documentoPasajero;
-	// 	$resp= false;
-	// 	if($base->Iniciar()){
-	// 		if($base->Ejecutar($consultaPersona)){
-	// 			if($fila=$base->Registro()){
-    //                 $this->setDocumentoPasajero($fila['documentoPasajero']);					
-	// 				$this->setTelefonoPasajero($fila['telefonoPasajero']);
-					
-	// 				$resp= true;
-	// 			}				
-			
-	// 	 	}	else {
-	// 	 			throw new Exception($base->getError());
-		 		
-	// 		}
-	// 	 }	else {
-	// 	 		throw new Exception($base->getError());
-		 	
-	// 	 }		
-	// 	 return $resp;
-	// }
-
 	public static function Buscar($id){
 		$persona = Persona::Buscar($id);
 		if($persona !== null){
@@ -80,8 +51,7 @@ class Pasajero extends Persona {
 						$fila['telefonoPasajero']
 					);
 					$pasajeroEncontrado->setIdPersona($id);
-						
-						// $resp= true;
+		
 					}				
 				
 				}	else {
