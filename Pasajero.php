@@ -37,22 +37,28 @@ class Pasajero extends Persona {
 
 	public static function Buscar($id){
 		$persona = Persona::Buscar($id);
+
 		if($persona !== null){
-			$base=new BaseDatos();
-			$consultaPasajero="SELECT * FROM pasajero WHERE idPersona=". $id;
-			$pasajeroEncontrado=null;
+			$base = new BaseDatos();
+			$consultaPasajero="SELECT * FROM Pasajero WHERE idPersona=". $id . " AND borrado IS NULL";
+			
 			if($base->Iniciar()){
 				if($base->Ejecutar($consultaPasajero)){
 					
 					if($fila=$base->Registro()){
-						$pasajeroEncontrado = new Pasajero($persona->getNombre(),
-						$persona->getApellido(),
-						$fila['documentoPasajero'],					
-						$fila['telefonoPasajero']
-					);
-					$pasajeroEncontrado->setIdPersona($id);
-		
-					}				
+						$pasajeroEncontrado=null;
+						if (is_array($fila)) {
+							$pasajeroEncontrado = new Pasajero($persona->getNombre(),
+							$persona->getApellido(),
+							$fila['documentoPasajero'],					
+							$fila['telefonoPasajero']
+							); 
+							$pasajeroEncontrado->setIdPersona($id);
+						}
+								
+					} else {
+						throw new Exception("No se encontro el pasajero con id: " . $id);
+					}
 				
 				}	else {
 						throw new Exception($base->getError());
@@ -67,22 +73,29 @@ class Pasajero extends Persona {
 		 return $pasajeroEncontrado;
 	}
 
-     public static function listar($condicion=""){
+     public static function Listar($condicion= ''){
 	    $arregloPersona = null;
-		$base=new BaseDatos();
+		$base = new BaseDatos();
 		$consultaPersonas="SELECT * FROM Pasajero ";
-		if ($condicion!=""){
-		    $consultaPersonas=$consultaPersonas.' WHERE '.$condicion;
+		if ($condicion!= ''){
+		    $consultaPersonas .= ' WHERE '. $condicion . "AND borrado IS NULL";
+		} else {
+			$consultaPersonas .= "WHERE borrado IS NULL";
 		}
-		$consultaPersonas.=" order by documentoPasajero ";
+		$consultaPersonas .= " order by documentoPasajero ";
 		//echo $consultaPersonas;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersonas)){				
-				$arregloPersona= array();
-				while($fila=$base->Registro()){
 				
-					$pasajero=new Pasajero($fila['nombre'], $fila['apellido'], $fila['documentoPasajero'], $fila['telefonoPasajero']);	
-					array_push($arregloPersona,$pasajero);
+				while($fila=$base->Registro()){
+					$objPasajero = new Pasajero(
+						$fila['nombre'],
+						$fila['apellido'],
+						$fila['documentoPasajero'],
+						$fila['telefonoPasajero']
+					);
+					$objPasajero -> setIdPersona($fila['idPersona']);
+					$arregloPersona[] =$objPasajero;
 				}
 		 	}	else {
 		 			throw new Exception($base->getError());	
@@ -93,15 +106,16 @@ class Pasajero extends Persona {
 		return $arregloPersona;
 	}	
 
-    public function insertar(){
-		$base=new BaseDatos();
-		$resp= false;
-		$consultaInsertar="INSERT INTO Pasajero(documentoPasajero, telefonoPasajero, idPersona) 
+    public function Insertar(){
+		$base = new BaseDatos();
+		$resp = false;
+		$consultaInsertar = "INSERT INTO Pasajero(documentoPasajero, telefonoPasajero, idPersona) 
 				VALUES (".$this->getDocumentoPasajero(). "','".$this->getTelefonoPasajero(). "','" . parent::getIdPersona()."')";
 		
 		if($base->Iniciar()){
 			if($id=$base->devuelveIDInsercion($consultaInsertar)){
-			    $resp=  true;
+			    $this -> setIdPersona($id);
+				$resp=  true;
 			} else {
 					throw new Exception($base->getError());	
 			    }
@@ -111,7 +125,7 @@ class Pasajero extends Persona {
 		return $resp;
 	}
 
-    public function modificar(){
+    public function Modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
 		$consultaModifica="UPDATE Pasajero SET documentoPasajero='".$this->getDocumentoPasajero()."',telefonoPasajero='".$this->getTelefonoPasajero()."',idPersona='". parent::getIdPersona()."' WHERE idPersona=". parent::getIdPersona();
@@ -127,11 +141,11 @@ class Pasajero extends Persona {
 		return $resp;
 	}
 
-    public function eliminar(){
-		$base=new BaseDatos();
-		$resp=false;
+    public function Eliminar(){
+		$base = new BaseDatos();
+		$resp = false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM Pasajero WHERE idPersona=". parent::getIdPersona();
+				$consultaBorra="UPDATE Pasajero SET borrado = CURRENT_DATE WHERE idPersona=". parent::getIdPersona();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp= true;
 				}else{
