@@ -59,7 +59,7 @@ class Empresa
         $empresaEncontrada=null;
         $consulta = "SELECT * FROM Empresa WHERE idEmpresa= '" . $id . "' AND borrado IS NULL";
 
-        if ($base->iniciar()) {
+        if ($base->Iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 if ($fila = $base->Registro()) {
                     $empresaEncontrada = null;
@@ -100,7 +100,7 @@ class Empresa
 
         $consulta .= " order by idEmpresa";
 
-        if ($base->iniciar()) {
+        if ($base->Iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 while ($fila = $base->Registro()) {
                     $objEmpresa = new Empresa(
@@ -125,7 +125,7 @@ class Empresa
         $resp = false;
         $consulta = "INSERT INTO Empresa( empresaNombre, empresaDireccion) VALUES ('" . $this->getEmpresaNombre() . "', '" . $this->getEmpresaDireccion() . "')";
 
-        if ($base->iniciar()) {
+        if ($base->Iniciar()) {
             if ($id = $base->devuelveIDInsercion($consulta)) {
                 $this->setIdEmpresa($id);
                 $resp = true;
@@ -144,7 +144,7 @@ class Empresa
         $resp = false;
         $consulta = "UPDATE empresa SET empresaNombre= '" . $this->getEmpresaNombre() . "', empresaDireccion= '" . $this->getEmpresaDireccion() . "' WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
 
-        if ($base->iniciar()) {
+        if ($base->Iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 $resp = true;
             } else {
@@ -162,7 +162,7 @@ class Empresa
         $base = new BaseDatos();
         $resp = false;
 
-        if ($base->iniciar()) {
+        if ($base->Iniciar()) {
             $consulta = "UPDATE Empresa SET borrado= CURRENT_DATE WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
             if ($base->Ejecutar($consulta)) {
                 $resp = true;
