@@ -20,7 +20,8 @@ function llamarFuncionSeleccionadaEmpresa($opcion) {
         case 2:
             echo "Ingrese el ID de la empresa a buscar: ";
             $idEmpresa = trim(fgets(STDIN));
-            if($empresaEncontrada = buscarEmpresa($idEmpresa )!== null) {
+            $empresaEncontrada = buscarEmpresa($idEmpresa );
+            if($empresaEncontrada!== null) {
                 echo "Empresa encontrada:\n";
                 echo $empresaEncontrada;
             } else {
@@ -35,22 +36,35 @@ function llamarFuncionSeleccionadaEmpresa($opcion) {
             echo "Dirección: ";
             $direccion = trim(fgets(STDIN));
             $empresa = new Empresa($nombre, $direccion);
-            return insertarEmpresa($empresa);
+            echo insertarEmpresa($empresa);
             break;
         case 4:
-            echo "Ingrese los datos de la empresa a modificar:\n";
-            echo "Nombre: ";
-            $nombre = trim(fgets(STDIN));
-            echo "Ingrese Direccion: ";
-            $direccion = trim(fgets(STDIN));
-            $empresa = new Empresa($nombre, $direccion);
-            return modificarEmpresa($empresa);
+            echo "Ingrese el ID de la empresa a modificar:\n";
+            $idEmpresa = trim(fgets(STDIN));
+            $empresa = Empresa::Buscar($idEmpresa);
+            if($empresa !== null){
+                echo "Nuevo nombre: ";
+                $nuevoNombre = trim(fgets(STDIN));
+                echo "Nueva dirección: ";
+                $nuevaDireccion = trim(fgets(STDIN));
+
+                $empresa->setEmpresaNombre($nuevoNombre);
+                $empresa->setEmpresaDireccion($nuevaDireccion);
+                echo modificarEmpresa($empresa);
+            }else{echo "no existe la empresa";
+            }
+            
             break;
         case 5:
             echo "Ingrese la empresa que quiere eliminar: \n";
             echo "Ingrese el id: \n";
             $idEmpresa = trim(fgets(STDIN));
-            return eliminarEmpresa($idEmpresa);
+            $empresa = Empresa::Buscar($idEmpresa);
+            if ($empresa !== null){
+                echo eliminarEmpresa($empresa);
+            }else{
+                echo "No existe ninguna empresa con este ID";
+            }
             break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";

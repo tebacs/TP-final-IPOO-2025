@@ -138,7 +138,7 @@ class Empresa
     {
         $base = new BaseDatos();
         $resp = false;
-        $consulta = "UPDATE Empresa SET empresaNombre= '" . $this->getEmpresaNombre() . "', empresaDireccion= '" . $this->getEmpresaDireccion() . "' WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
+        $consulta = "UPDATE empresa SET empresaNombre= '" . $this->getEmpresaNombre() . "', empresaDireccion= '" . $this->getEmpresaDireccion() . "' WHERE idEmpresa= '" . $this->getIdEmpresa() . "'";
 
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
@@ -151,6 +151,7 @@ class Empresa
         }
         return $resp;
     }
+    
 
     public function Eliminar()
     {
