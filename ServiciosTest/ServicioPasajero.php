@@ -15,7 +15,7 @@ function menuPasajero() {
 function llamarFuncionSeleccionadaPasajero($opcion) {
     switch ($opcion) {
         case 1:
-            return listarPasajeros();
+            echo listarPasajeros();
             break;
         case 2:
             echo "Ingrese el ID del pasajero: ";
@@ -62,6 +62,21 @@ function llamarFuncionSeleccionadaPasajero($opcion) {
 
 function listarPasajeros() {
     echo "Listando pasajeros...\n";
+
+    $resultado = "";
+    $pasajeros = Pasajero::Listar();
+    if (empty($pasajeros) || count($pasajeros) === 0) {
+        $resultado = "No hay pasajeros registrados.";
+    } else {
+        $resultado = "Listado de pasajeros:\n";
+        $i = 1;
+        foreach ($pasajeros as $pasajero) {
+            $resultado .= "#$i " . $pasajero. "\n";
+            $resultado .= "--------------------------------\n";
+            $i++;
+        }
+    }
+    return $resultado;
 
 
 }

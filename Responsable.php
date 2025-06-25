@@ -88,7 +88,7 @@
 		$consultaResponsable.=" order by numeroResponsable ";
 		//echo $consultaPersonas;
 		if($base->Iniciar()){
-			if($base->Ejecutar($consultaResponsable)){				
+			if($base->Ejecutar($consultaResponsable)){			
 				
 				while($fila=$base->Registro()){
 					$persona = Persona::Buscar($fila['idPersona']);
