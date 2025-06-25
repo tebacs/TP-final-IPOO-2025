@@ -86,14 +86,12 @@ class Empresa
 
     /**
      * Recupera las empresas según su id
-     * @param mixed $condicion
-     * @return void
      */
     public static function Listar($condicion = '')
     {
         $aEmpresa = null;
         $base = new BaseDatos();
-        $consulta = "SELECT * FROM empresa";
+        $consulta = "SELECT * FROM Empresa";
         if ($condicion != '') {
             $consulta .= " WHERE "  . $condicion . " AND borrado IS NULL";
         } else {

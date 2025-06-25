@@ -47,53 +47,26 @@
             $mensaje .= "idPersona: " . $this -> getidPersona() . "\n";
 
             return $mensaje;
-        }
-
-    /**
-	 * Recupera los datos de una persona por numero de idPersona
-	 * @param int $idPersona
-	 * return true en caso de encontrar los datos, false en caso contrario 
-	 */		
-
-    // public function Buscar($idPersona){
-	// 	$base=new BaseDatos();
-	// 	$consultaPersona="SELECT * FROM Persona WHERE idPersona=".$idPersona;
-	// 	$resp= false;
-	// 	if($base->Iniciar()){
-	// 		if($base->Ejecutar($consultaPersona)){
-	// 			if($fila=$base->Registro()){
-    //                 $this->setIdPersona($fila['idPersona']);					
-	// 				$this->setNombre($fila['nombre']);
-	// 				$this->setApellido($fila['apellido']);
-	// 				$resp= true;
-	// 			}				
-			
-	// 	 	}	else {
-	// 	 			throw new Exception($base->getError());
-		 		
-	// 		}
-	// 	 }	else {
-	// 	 		throw new Exception($base->getError());
-		 	
-	// 	 }		
-	// 	 return $resp;
-	// }	
+        }	
 
 	 public static function Buscar($id){
             $base= new BaseDatos();
-            $consulta= "SELECT * from persona where idPersona= '" . $id . "'";
+            $consulta= "SELECT * FROM Persona WHERE idPersona= '" . $id . "'AND borrado IS NULL";
 			$personaEncontrada = null;
-            // $resp= false;
 
             if($base->iniciar()){
                 if($base->Ejecutar($consulta)){
                     if($fila=$base->Registro()){
-                        $personaEncontrada= new Persona(
+						if (is_array($fila)) {
+							$personaEncontrada= new Persona(
                             $fila['nombre'],
                             $fila['apellido']
                         );
-                         $personaEncontrada->setIdPersona($id);
-                    }
+						 $personaEncontrada->setIdPersona($id);
+						}   
+                    } else {
+						throw new Exception("No se encontró la Persona con ID: " . $id);
+					}
                 } else{
                     throw new Exception($base->getError());
                 }
@@ -105,22 +78,24 @@
 
     public static function listar($condicion=""){
 	    $arregloPersona = null;
-		$base=new BaseDatos();
+		$base = new BaseDatos();
 		$consultaPersonas="SELECT * FROM Persona ";
 		if ($condicion!=""){
-		    $consultaPersonas=$consultaPersonas.' WHERE '.$condicion;
+		    $consultaPersonas .= " WHERE " . $condicion . " AND borrado IS NULL";
+		} else {
+			$consultaPersonas .= " WHERE borrado IS NULL";
 		}
 		$consultaPersonas.=" order by apellido ";
 		//echo $consultaPersonas;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersonas)){				
-				$arregloPersona= array();
 				while($fila=$base->Registro()){
-				
-					$persona=new Persona($fila['nombre'], $fila['apellido']);
-					$persona->setIdPersona($fila['idPersona']);
-					
-					array_push($arregloPersona,$persona);
+					$objPersona = new Persona(
+						$fila['nombre'],
+						$fila['apellido']
+					);
+					$objPersona -> setIdPersona($fila['idPersona']);
+					$arregloPersona[] = $objPersona;
 				}
 		 	}	else {
 		 		 throw new Exception($base->getError());
@@ -132,13 +107,13 @@
 	}	
 
     public function insertar(){
-		$base=new BaseDatos();
+		$base = new BaseDatos();
 		$resp= false;
 		$consultaInsertar="INSERT INTO persona(nombre, apellido) 
 				VALUES ('".$this->getNombre()."','".$this->getApellido()."')";
 		
 		if($base->Iniciar()){
-			if($base->Ejecutar($consultaInsertar)){
+			if($id = $base->devuelveIDInsercion($consultaInsertar)){
 			    $resp=  true;
 
 			}	else {
@@ -152,7 +127,7 @@
 
     public function modificar(){
 	    $resp =false; 
-	    $base=new BaseDatos();
+	    $base = new BaseDatos();
 		$consultaModifica="UPDATE Persona SET idPersona='".$this->getIdPersona()."',nombre='".$this->getNombre()."',apellido='".$this->getApellido()."' WHERE idPersona=". $this->getIdPersona();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
@@ -170,8 +145,8 @@
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM Persona WHERE idPersona=".$this->getIdPersona();
-				if($base->Ejecutar($consultaBorra)){
+				$consulta="UPDATE Persona SET borrado = CURRENT_DATE WHERE idPersona=" . $this->getIdPersona();
+				if($base->Ejecutar($consulta)){
 				    $resp=  true;
 				}else{
 					throw new Exception($base->getError());
