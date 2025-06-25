@@ -39,7 +39,7 @@ class RealizaViaje{
         return "El pasajero " . $this->getIdPasajero()->__toString() . " realiza el viaje " . $this->getIdViaje()->__toString();
     }
 
-    public function Buscar($pasajero, $viaje){
+    public static function Buscar($pasajero, $viaje){
         $base= new BaseDatos();
         $realizaViajeEncontrado=null;
         $condicion= "SELECT * FROM RealizaViaje WHERE idViaje= ". $viaje . ", idPasajero= " . $pasajero;
@@ -67,7 +67,7 @@ class RealizaViaje{
      * @throws \Exception
      * @return RealizaViaje[]
      */
-    public function Listar($condicion=''){
+    public static function Listar($condicion=''){
         $aRealizaViaje=null; //Arreglo de RealizaViaje si se ejecuta la consulta
         $base= new BaseDatos();
         $consulta="Select * from RealizaViaje";

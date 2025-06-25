@@ -53,27 +53,26 @@ function llamarFuncionSeleccionadaEmpresa($opcion)
             //si existe, se muestra la empresa y se le pide al usuario los nuevos datos
             if ($empresaParaEditar == null) {
                 echo "No se encontró la empresa con ID: $id\n";
-                return;
             } else {
                 echo "Empresa encontrada:\n";
                 echo "ID: " . $empresaParaEditar->getIdEmpresa() . "\n";
                 echo "Nombre: " . $empresaParaEditar->getEmpresaNombre() . "\n";
                 echo "Dirección: " . $empresaParaEditar->getEmpresaDireccion() . "\n";
+                echo "Ingrese nuevo Nombre: ";// Solicitar al usuario el nuevo nombre
+                //y la nueva direccion
+                $nombreNuevo = trim(fgets(STDIN));
+                echo "Ingrese nueva Direccion: ";
+                $direccionNueva = trim(fgets(STDIN));
+                // Crear un nuevo objeto Empresa con los datos actualizados
+                //y asignarle el id de la empresa a editar
+                $empresaEditada = new Empresa($nombreNuevo, $direccionNueva);
+                $empresaEditada->setIdEmpresa($id); // Asignar el ID de la empresa a editar
+                echo "Datos de la empresa a modificar:\n";
+                echo modificarEmpresa($empresaEditada);
+                // Llamar a la función modificarEmpresa para actualizar los datos
+                //y mostrar el resultado de la operación
+                echo buscarEmpresa($id);
             }
-            echo "Ingrese nuevo Nombre: ";// Solicitar al usuario el nuevo nombre
-            //y la nueva direccion
-            $nombreNuevo = trim(fgets(STDIN));
-            echo "Ingrese nueva Direccion: ";
-            $direccionNueva = trim(fgets(STDIN));
-            // Crear un nuevo objeto Empresa con los datos actualizados
-            //y asignarle el id de la empresa a editar
-            $empresaEditada = new Empresa($nombreNuevo, $direccionNueva);
-            $empresaEditada->setIdEmpresa($id); // Asignar el ID de la empresa a editar
-            echo "Datos de la empresa a modificar:\n";
-            echo modificarEmpresa($empresaEditada);
-            // Llamar a la función modificarEmpresa para actualizar los datos
-            //y mostrar el resultado de la operación
-            echo buscarEmpresa($id);
             break;
         case 5:
             echo "Ingrese la empresa que quiere eliminar: \n";
@@ -90,14 +89,13 @@ function llamarFuncionSeleccionadaEmpresa($opcion)
 function listarEmpresasNumeradas()
 {
 
-    echo "Listando empresas numeradas...\n";
+    $resultado= "Listando empresas numeradas...\n";
 
-    $resultado = "";
     $empresas = Empresa::Listar();
     if (empty($empresas) || count($empresas) === 0) {
-        $resultado = "No hay empresas registradas.";
+        $resultado .= "No hay empresas registradas.";
     } else {
-        $resultado = "Listado de Empresas:\n";
+        $resultado .= "Listado de Empresas:\n";
         $i = 1;
         foreach ($empresas as $empresa) {
             $resultado .= "#$i " . $empresa . "\n";
