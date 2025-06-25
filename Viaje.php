@@ -98,7 +98,7 @@
         public static function Buscar($id){
             $base= new BaseDatos();
             $consultaViaje= "SELECT * from Viaje where idViaje= '" . $id . "'";
-            // $resp= false;
+            $viajeEncontrado=null;
 
             if($base->iniciar()){
                 if($base->Ejecutar($consultaViaje)){
@@ -111,7 +111,7 @@
                             $fila['importeViaje']
                         );
                          $viajeEncontrado->setIdViaje($id);
-                        // $resp=true;
+                        
                     }
                 } else{
                     throw new Exception($base->getError());
@@ -133,7 +133,9 @@
             $base= new BaseDatos();
             $consultaListar= "SELECT * FROM viaje ";
             if($condicion!=''){
-                $consultaListar .= "WHERE " . $condicion;
+                $consultaListar .= "WHERE " . $condicion . "AND borrado IS NULL";
+            }else{
+                $consultaListar .= "WHERE borrado IS NULL";
             }
             $consultaListar .= " order by destinoViaje";
 
@@ -206,7 +208,7 @@
             $resp= false;
 
             if($base->iniciar()){
-                $consulta= "DELETE FROM Viaje WHERE idViaje= '" . $this->getIdViaje() . "'";
+                $consulta= "UPDATE Viaje SET borrado= CURRENT_DATE WHERE idViaje= '" . $this->getIdViaje() . "'";
                 if($base->Ejecutar($consulta)){
                     $resp=true;
                 }else{

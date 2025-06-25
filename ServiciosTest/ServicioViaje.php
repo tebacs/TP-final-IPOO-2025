@@ -13,10 +13,10 @@ function menuViaje(){
 
 function llamarFuncionSeleccionadaViaje($opcion) {
     switch ($opcion) {
-        case 1:
+        case 1://Listar viajes
             echo listarViajes();
             break;
-        case 2:
+        case 2://buscar por id
             echo "Ingrese el ID del viaje a buscar: ";
             $idViaje = trim(fgets(STDIN));
             $viajeEncontrado = buscarViaje($idViaje );
@@ -53,7 +53,7 @@ function llamarFuncionSeleccionadaViaje($opcion) {
                 echo "No existe una empresa con ese ID.\n";
             }
             break;
-        case 4:
+        case 4: //modificar
             echo "Ingrese el ID del viaje a modificar:\n";
             $idViaje = trim(fgets(STDIN));
             $viaje = Viaje::Buscar($idViaje);
@@ -81,13 +81,13 @@ function llamarFuncionSeleccionadaViaje($opcion) {
 
                         echo modificarViaje($viaje);
                     }else{
-                        echo "Noe existe ningun responsable con ese ID.\n";
+                        echo "No existe ningún responsable con ese ID.\n";
                     }
                 }else{
                     echo "No existe una empresa con ese ID.\n";
                 }
             }else{
-                echo "no existe el viaje";
+                echo "No existe el viaje";
             }
             
             break;
@@ -97,7 +97,7 @@ function llamarFuncionSeleccionadaViaje($opcion) {
             $idViaje= trim(fgets(STDIN));
             $viaje = Viaje::Buscar($idViaje);
             if ($viaje !== null){
-                echo eliminarEmpresa($viaje);
+                echo eliminarViaje($idViaje);
             }else{
                 echo "No existe ningun viaje con este ID";
             }
@@ -109,14 +109,13 @@ function llamarFuncionSeleccionadaViaje($opcion) {
 
 function listarViajes() {
 
-    echo "Listando viajes numerados...\n";
+    $resultado= "Listando viajes numerados...\n";
 
-    $resultado = "";
     $viajes = Viaje::listar();
     if (empty($viajes) || count($viajes) === 0) {
-        $resultado = "No hay viajes registrados.";
+        $resultado .= "No hay viajes registrados.";
     } else {
-        $resultado = "Listado de Viajes:\n";
+        $resultado .= "Listado de Viajes:\n";
         $i = 1;
         foreach ($viajes as $viaje) {
             $resultado .= "#$i " . $viaje . "\n";
@@ -129,29 +128,42 @@ function listarViajes() {
 
 function buscarViaje($idViaje) {
     return Viaje::Buscar($idViaje);
+
 }
 
 function insertarViaje($viaje) {
+    $resultado= "";
     if($viaje -> Insertar()) {
-        echo "El viaje se inserto con exito!\n";
+        $resultado=  "El viaje se inserto con éxito!\n";
     } else {
-        echo "No se puedo insertar el viaje";
+        $resultado= "No se puedo insertar el viaje";
     }
+    return $resultado;
 }
 
 function modificarViaje($viaje) {
+    $resultado= "";
     if($viaje->Modificar()){
-        echo "El viaje se modifico con exito!";
+        $resultado= "El viaje se modifico con éxito!";
     } else {
-        echo "No se pudo modificar el viaje";
+        $resultado= "No se pudo modificar el viaje";
     }
+    return $resultado;
 }
 
-function eliminarViaje($viaje) {
-    if ($viaje -> eliminar()) {
-        echo "Se elimino el viaje!\n";
-    } else {
-        echo "NO se pudo eliminar el viaje.\n";
+function eliminarViaje($idViaje) {
+    $resultado= "";
+    $viaje= Viaje::Buscar($idViaje);
+
+    if($viaje != null){
+        if($viaje->Eliminar()){
+            $resultado .= "Se eliminó el viaje\n";
+        }else{
+            $resultado.= "No se pudo eliminar el viaje\n";
+        }
+    }else{
+        $resultado.= "No se encontró el viaje con ID: " . $idViaje."\n";
     }
+    return $resultado;
 }
 

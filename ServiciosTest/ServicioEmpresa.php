@@ -154,7 +154,7 @@ function eliminarEmpresa($idEmpresa)
     //si no existe, se devuelve un mensaje de error
     if ($empresa != null) {
         if ($empresa->Eliminar()) {
-            $resultado = "Se elimino la empresa!\n";
+            $resultado = "Se eliminó la empresa!\n";
         } else {
             $resultado = "NO se pudo eliminar la empresa\n";
         }
