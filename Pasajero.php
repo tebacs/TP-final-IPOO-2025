@@ -38,30 +38,63 @@ class Pasajero extends Persona {
     /**
 	 * Recupera los datos de una persona por numero de idPersona
 	 * @param int $idPersona
-	 * @return true en caso de encontrar los datos, false en caso contrario 
+	 * return true en caso de encontrar los datos, false en caso contrario 
 	 */		
-    public function Buscar($documentoPasajero){
-		$base=new BaseDatos();
-		$consultaPersona="SELECT * from Pasajero WHERE documentoPasajero=" . $documentoPasajero;
-		$resp= false;
-		if($base->Iniciar()){
-			if($base->Ejecutar($consultaPersona)){
-				if($fila=$base->Registro()){
-                    $this->setDocumentoPasajero($fila['documentoPasajero']);					
-					$this->setTelefonoPasajero($fila['telefonoPasajero']);
+    // public function Buscar($documentoPasajero){
+	// 	$base=new BaseDatos();
+	// 	$consultaPersona="SELECT * from Pasajero WHERE documentoPasajero=" . $documentoPasajero;
+	// 	$resp= false;
+	// 	if($base->Iniciar()){
+	// 		if($base->Ejecutar($consultaPersona)){
+	// 			if($fila=$base->Registro()){
+    //                 $this->setDocumentoPasajero($fila['documentoPasajero']);					
+	// 				$this->setTelefonoPasajero($fila['telefonoPasajero']);
 					
-					$resp= true;
-				}				
+	// 				$resp= true;
+	// 			}				
 			
-		 	}	else {
-		 			throw new Exception($base->getError());
+	// 	 	}	else {
+	// 	 			throw new Exception($base->getError());
 		 		
-			}
-		 }	else {
-		 		throw new Exception($base->getError());
+	// 		}
+	// 	 }	else {
+	// 	 		throw new Exception($base->getError());
 		 	
-		 }		
-		 return $resp;
+	// 	 }		
+	// 	 return $resp;
+	// }
+
+	public static function Buscar($id){
+		$persona = Persona::Buscar($id);
+		if($persona !== null){
+			$base=new BaseDatos();
+			$consultaPasajero="SELECT * FROM pasajero WHERE idPersona=". $id;
+			$pasajeroEncontrado=null;
+			if($base->Iniciar()){
+				if($base->Ejecutar($consultaPasajero)){
+					
+					if($fila=$base->Registro()){
+						$pasajeroEncontrado = new Pasajero($persona->getNombre(),
+						$persona->getApellido(),
+						$fila['documentoPasajero'],					
+						$fila['telefonoPasajero']
+					);
+					$pasajeroEncontrado->setIdPersona($id);
+						
+						// $resp= true;
+					}				
+				
+				}	else {
+						throw new Exception($base->getError());
+					
+				}
+			}	else {
+					throw new Exception($base->getError());
+			}
+		}else{
+			$pasajeroEncontrado = null;
+		}		
+		 return $pasajeroEncontrado;
 	}
 
      public static function listar($condicion=""){

@@ -14,12 +14,18 @@ function menuPersona() {
 function llamarFuncionSeleccionadaPersona($opcion) {
     switch ($opcion) {
         case 1:
-            return listarPersonas();
+            echo listarPersonas();
             break;
         case 2:
-            echo "Ingrese id: ";
-            $id = trim(fgets(STDIN));
-            return buscarPersona($id);
+            echo "Ingrese el ID de la persona a buscar: ";
+            $idPersona = trim(fgets(STDIN));
+            $personaEncontrada = buscarPersona($idPersona );
+            if($personaEncontrada!== null) {
+                echo "persona encontrada:\n";
+                echo $personaEncontrada;
+            } else {
+                echo "No se encontró la persona con ID: $idPersona\n";
+            }
             break;
         case 3:
             echo "Ingrese los datos de la persona:\n";            
@@ -31,19 +37,31 @@ function llamarFuncionSeleccionadaPersona($opcion) {
             return insertarPersona($personaData);
             break;
         case 4:
-            echo "Ingrese los datos del Pasajero: \n";
-            echo "Nombre: \n";
-            $nombre = trim(fgets(STDIN));
-            echo "Apellido: ";
-            $apellido = trim(fgets(STDIN));
-            $personaData = new Persona($nombre, $apellido);
-            return modificarPersona($personaData);
+            echo "Ingrese el ID de la persona a modificar \n";
+            $idPersona = trim(fgets(STDIN));
+            $persona = Persona::Buscar($idPersona);
+            if($persona !== null){
+                echo "Nuevo nombre: \n";
+                $nombre = trim(fgets(STDIN));
+                echo "Nuevo apellido: \n";
+                $apellido = trim(fgets(STDIN));
+
+                $persona->setNombre($nombre);
+                $persona->setApellido($apellido);
+                echo modificarPersona($persona);
+            }
             break;
         case 5:
             echo "Ingrese la persona que desea eliminar\n";
             echo "IdPersona: \n";
             $idPersona = trim(fgets(STDIN));
-            return eliminarPersona($idPersona);
+
+            $persona = Persona::Buscar($idPersona);
+            if($persona!==null){
+                echo eliminarPersona($persona);
+            }else{
+                echo "No existe niguna persona con ese ID";
+            }
             break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
@@ -54,24 +72,48 @@ function llamarFuncionSeleccionadaPersona($opcion) {
 function listarPersonas() {
     echo "Listando personas...\n";
 
+    $resultado = "";
+    $personas = Persona::Listar();
+    if (empty($personas) || count($personas) === 0) {
+        $resultado = "No hay personas registradas.";
+    } else {
+        $resultado = "Listado de personas:\n";
+        $i = 1;
+        foreach ($personas as $persona) {
+            $resultado .= "#$i " . $persona. "\n";
+            $resultado .= "--------------------------------\n";
+            $i++;
+        }
+    }
+    return $resultado;
 }
 
-function buscarPersona($id) {
-    echo "Buscando persona...\n";   
+function buscarPersona($idPersona) {
+    return Persona::Buscar($idPersona);
 }
 
-function insertarPersona($persona) {
-    echo "Insertando persona...\n";   
-    $persona->insertar();
-    echo "Persona insertada correctamente.\n";
+function insertarPersona($persona) { 
+    if($persona->insertar()){
+        echo "La persona se inserto con exito!\n";
+    }else{
+        echo "No se pudo insertar la persona.\n";
+    }
 }
 
-function modificarPersona() {
-    echo "Modificando persona...\n";   
+function modificarPersona($persona) {
+    if($persona->modificar()){
+        echo "La persona se modifico con exito!\n";
+    }else{
+        echo "No se pudo modificar la persona.\n";
+    }
 }
 
-function eliminarPersona() {
-    echo "Eliminando persona...\n";   
+function eliminarPersona($persona) {
+    if($persona->eliminar()){
+        echo "se elimino la persona con exito.\n";
+    }else{
+        echo "no se pudo eliminar la persona.\n";
+    }
     // Aquí se implementaría la lógica para eliminar una persona
 }
 

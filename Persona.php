@@ -52,31 +52,57 @@
     /**
 	 * Recupera los datos de una persona por numero de idPersona
 	 * @param int $idPersona
-	 * @return true en caso de encontrar los datos, false en caso contrario 
+	 * return true en caso de encontrar los datos, false en caso contrario 
 	 */		
-    public function Buscar($idPersona){
-		$base=new BaseDatos();
-		$consultaPersona="SELECT * FROM Persona WHERE idPersona=".$idPersona;
-		$resp= false;
-		if($base->Iniciar()){
-			if($base->Ejecutar($consultaPersona)){
-				if($fila=$base->Registro()){
-                    $this->setIdPersona($fila['idPersona']);					
-					$this->setNombre($fila['nombre']);
-					$this->setApellido($fila['apellido']);
-					$resp= true;
-				}				
+
+    // public function Buscar($idPersona){
+	// 	$base=new BaseDatos();
+	// 	$consultaPersona="SELECT * FROM Persona WHERE idPersona=".$idPersona;
+	// 	$resp= false;
+	// 	if($base->Iniciar()){
+	// 		if($base->Ejecutar($consultaPersona)){
+	// 			if($fila=$base->Registro()){
+    //                 $this->setIdPersona($fila['idPersona']);					
+	// 				$this->setNombre($fila['nombre']);
+	// 				$this->setApellido($fila['apellido']);
+	// 				$resp= true;
+	// 			}				
 			
-		 	}	else {
-		 			throw new Exception($base->getError());
+	// 	 	}	else {
+	// 	 			throw new Exception($base->getError());
 		 		
-			}
-		 }	else {
-		 		throw new Exception($base->getError());
+	// 		}
+	// 	 }	else {
+	// 	 		throw new Exception($base->getError());
 		 	
-		 }		
-		 return $resp;
-	}	
+	// 	 }		
+	// 	 return $resp;
+	// }	
+
+	 public static function Buscar($id){
+            $base= new BaseDatos();
+            $consulta= "SELECT * from persona where idPersona= '" . $id . "'";
+			$personaEncontrada = null;
+            // $resp= false;
+
+            if($base->iniciar()){
+                if($base->Ejecutar($consulta)){
+                    if($fila=$base->Registro()){
+                        $personaEncontrada= new Persona(
+                            $fila['nombre'],
+                            $fila['apellido']
+                        );
+                         $personaEncontrada->setIdPersona($id);
+                        // $resp=true;
+                    }
+                } else{
+                    throw new Exception($base->getError());
+                }
+            } else{
+                throw new Exception($base->getError());
+            }
+            return $personaEncontrada;
+        }
 
     public static function listar($condicion=""){
 	    $arregloPersona = null;
@@ -93,6 +119,7 @@
 				while($fila=$base->Registro()){
 				
 					$persona=new Persona($fila['nombre'], $fila['apellido']);
+					$persona->setIdPersona($fila['idPersona']);
 					
 					array_push($arregloPersona,$persona);
 				}
@@ -109,7 +136,7 @@
 		$base=new BaseDatos();
 		$resp= false;
 		$consultaInsertar="INSERT INTO persona(nombre, apellido) 
-				VALUES (".$this->getNombre()."','".$this->getApellido()."')";
+				VALUES ('".$this->getNombre()."','".$this->getApellido()."')";
 		
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaInsertar)){

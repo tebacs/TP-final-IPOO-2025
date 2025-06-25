@@ -89,7 +89,7 @@ class Empresa
     {
         $aEmpresa = null;
         $base = new BaseDatos();
-        $consulta = "SELECT * FROM Empresa";
+        $consulta = "SELECT * FROM empresa";
         if ($condicion != '') {
             $consulta .= " WHERE " . $condicion;
         }

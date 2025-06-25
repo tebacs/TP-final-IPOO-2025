@@ -15,19 +15,66 @@ function menuResponsable() {
 function llamarFuncionSeleccionadaResponsable($opcion) {
     switch ($opcion) {
         case 1:
-            return listarResponsables();
+            echo listarResponsables();
             break;
         case 2:
-            return buscarResponsable();
+            echo "Ingrese el ID del responsable a buscar: ";
+            $idResponsable = trim(fgets(STDIN));
+            $responsableEncontrado = buscarResponsable($idResponsable );
+            if($responsableEncontrado!== null) {
+                echo "Responsable encontrado:\n";
+                echo $responsableEncontrado;
+            } else {
+                echo "No se encontró el responsable con ID: $idResponsable\n";
+            }
             break;
         case 3:
-            return insertarResponsable();
+            echo "Ingrese los datos del responsable:\n";
+            echo "ID Persona: ";
+            $idPersona = trim(fgets(STDIN));
+            $persona = Persona::Buscar($idPersona);
+            if($persona!==null){
+                echo "Numero de responsable: ";
+                $nroResponsable = trim(fgets(STDIN));
+                echo "Numero licencia: ";
+                $nroLicencia = trim(fgets(STDIN));
+                $nombre = $persona->getNombre();
+                $apellido = $persona->getApellido();
+                $responsable = new Responsable($nombre, $apellido, $nroResponsable, $nroLicencia);
+                $responsable->setIdPersona($idPersona);
+                echo insertarResponsable($responsable);
+            }else{
+                echo "no existe una persona con ese ID.\n";
+            }
+
             break;
         case 4:
-            return modificarResponsable();
+            echo "Ingrese el ID del responsable a modificar:\n";
+            $idResponsable = trim(fgets(STDIN));
+            $responsable = Responsable::Buscar($idResponsable);
+            if($responsable !== null){
+                echo "Nuevo numero de responsable: ";
+                $nuevoNroResponsable = trim(fgets(STDIN));
+                echo "Nuevo numero de licencia: ";
+                $nuevoNroLicencia = trim(fgets(STDIN));
+
+                $responsable->setNumeroResponsable($nuevoNroResponsable);
+                $responsable->setNumeroLicencia($nuevoNroLicencia);
+                echo modificarResponsable($responsable);
+            }else{echo "no existe el Responsable";
+            }
+            
             break;
         case 5:
-            return eliminarResponsable();
+            echo "Ingrese el reponsable que quiere eliminar: \n";
+            echo "Ingrese el id: \n";
+            $idResponsable = trim(fgets(STDIN));
+            $responsable = Responsable::Buscar($idResponsable);
+            if ($responsable !== null){
+                echo eliminarResponsable($responsable);
+            }else{
+                echo "No existe ningun responsable con este ID";
+            }
             break;
         default:
             return "Opción no válida. Por favor, ingrese una opción del 1 al 5.";
@@ -37,26 +84,48 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
 
 function listarResponsables() {
     echo "Listando responsables...\n";
-    // Aquí se implementaría la lógica para listar los responsables
+
+    $resultado = "";
+    $responsables = Responsable::Listar();
+    if (empty($responsables) || count($responsables) === 0) {
+        $resultado = "No hay responsables registradas.";
+    } else {
+        $resultado = "Listado de responsables:\n";
+        $i = 1;
+        foreach ($responsables as $responsable) {
+            $resultado .= "#$i " . $responsable. "\n";
+            $resultado .= "--------------------------------\n";
+            $i++;
+        }
+    }
+    return $resultado;
 }
 
-function buscarResponsable() {
-    echo "Buscando responsable...\n";
-    // Aquí se implementaría la lógica para buscar un responsable
+function buscarResponsable($idResponsable) {
+    return Responsable::Buscar($idResponsable);
 }
 
-function insertarResponsable() {
-    echo "Insertando responsable...\n";
-    // Aquí se implementaría la lógica para insertar un nuevo responsable
+function insertarResponsable($responsable) {
+    if($responsable->insertar()){
+        echo "El responsable se inserto con exito!\n";
+    } else {
+        echo "No se puedo insertar el responsable";
+    }
 }
 
-function modificarResponsable() {
-    echo "Modificando responsable...\n";
-    // Aquí se implementaría la lógica para modificar un responsable existente
+function modificarResponsable($responsable) {
+   if($responsable->Modificar()){
+        echo "El responsable se modifico con exito!";
+    } else {
+        echo "No se pudo modificar el responsable";
+    }
 }
 
-function eliminarResponsable() {
-    echo "Eliminando responsable...\n";
-    // Aquí se implementaría la lógica para eliminar un responsable
+function eliminarResponsable($responsable) {
+    if ($responsable -> eliminar()) {
+        echo "Se elimino el responsable!\n";
+    } else {
+        echo "NO se pudo eliminar el responsable.\n";
+    }
 }
 

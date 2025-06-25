@@ -42,33 +42,65 @@
         /**
 	 * Recupera los datos de una persona por numero de idPersona
 	 * @param int $idPersona
-	 * @return true en caso de encontrar los datos, false en caso contrario 
+	 * return true en caso de encontrar los datos, false en caso contrario 
 	 */		
-    public function Buscar($numeroResponsable){
-		$base=new BaseDatos();
-		$consultaPersona="SELECT * FROM Responsable WHERE numeroResponsable=". $numeroResponsable;
-		$resp= false;
-		if($base->Iniciar()){
-			if($base->Ejecutar($consultaPersona)){
-				if($fila=$base->Registro()){
-                    $this->setNumeroResponsable($fila['numeroResponsable']);					
-					$this->setNumeroLicencia($fila['numeroLicencia']);
+    // public function Buscar($numeroResponsable){
+	// 	$base=new BaseDatos();
+	// 	$consultaPersona="SELECT * FROM Responsable WHERE numeroResponsable=". $numeroResponsable;
+	// 	$resp= false;
+	// 	if($base->Iniciar()){
+	// 		if($base->Ejecutar($consultaPersona)){
+	// 			if($fila=$base->Registro()){
+    //                 $this->setNumeroResponsable($fila['numeroResponsable']);					
+	// 				$this->setNumeroLicencia($fila['numeroLicencia']);
 					
-					$resp= true;
-				}				
+	// 				$resp= true;
+	// 			}				
 			
-		 	}	else {
-		 			throw new Exception($base->getError());
+	// 	 	}	else {
+	// 	 			throw new Exception($base->getError());
 		 		
-			}
-		 }	else {
-		 		throw new Exception($base->getError());
+	// 		}
+	// 	 }	else {
+	// 	 		throw new Exception($base->getError());
 		 	
-		 }		
-		 return $resp;
+	// 	 }		
+	// 	 return $resp;
+	// }
+	public static function Buscar($id){
+		$persona = Persona::Buscar($id);
+		if($persona !== null){
+			$base=new BaseDatos();
+			$consultaPersona="SELECT * FROM Responsable WHERE idPersona=". $id;
+			$responsableEncontrado= null;
+			if($base->Iniciar()){
+				if($base->Ejecutar($consultaPersona)){
+					
+					if($fila=$base->Registro()){
+						$responsableEncontrado = new Responsable($persona->getNombre(),
+						$persona->getApellido(),
+						$fila['numeroResponsable'],					
+						$fila['numeroLicencia']
+					);
+					$responsableEncontrado->setIdPersona($id);
+						
+						// $resp= true;
+					}				
+				
+				}	else {
+						throw new Exception($base->getError());
+					
+				}
+			}	else {
+					throw new Exception($base->getError());
+			}
+		}else{
+			$responsableEncontrado=null;
+		}		
+		 return $responsableEncontrado;
 	}
     public static function listar($condicion=""){
-	    $arregloPersona = null;
+	    $arregloResponsable = null;
 		$base=new BaseDatos();
 		$consultaPersonas="SELECT * FROM Responsable ";
 		if ($condicion!=""){
@@ -78,11 +110,14 @@
 		//echo $consultaPersonas;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersonas)){				
-				$arregloPersona= array();
+				$arregloResponsable= array();
 				while($fila=$base->Registro()){
-				
-					$responsable = new Responsable($fila['nombre'], $fila['apellido'], $fila['numeroResponsable'], $fila['numeroLicencia']);	
-					array_push($arregloPersona,$responsable);
+					$persona = Persona::Buscar($fila['idPersona']);
+					$nombre = $persona->getNombre();
+					$apellido = $persona->getApellido();
+					$responsable = new Responsable($nombre, $apellido, $fila['numeroResponsable'], $fila['numeroLicencia']);	
+					$responsable->setIdPersona($fila['idPersona']);
+					array_push($arregloResponsable,$responsable);
 				}
 		 	}	else {
 		 			throw new Exception($base->getError());	
@@ -90,17 +125,17 @@
 		} else {
 		 	throw new Exception($base->getError());	
 		}	
-		return $arregloPersona;
+		return $arregloResponsable;
 	}	
 
     public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
 		$consultaInsertar="INSERT INTO Responsable(numeroResponsable, idPersona, numeroLicencia) 
-			VALUES (".$this->getNumeroResponsable(). "','".parent::getIdPersona(). "','" .$this->getNumeroLicencia() ."')";
+			VALUES (".$this->getNumeroResponsable(). ",".parent::getIdPersona(). "," .$this->getNumeroLicencia() .")";
 		
 		if($base->Iniciar()){
-			if($id=$base->devuelveIDInsercion($consultaInsertar)){
+			if($base->Ejecutar($consultaInsertar)){
 			    $resp=  true;
 			} else {
 				 throw new Exception($base->getError());	
