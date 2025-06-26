@@ -5,6 +5,7 @@ include_once "ServiciosTest/ServicioViaje.php";
 include_once "ServiciosTest/ServicioPasajero.php";
 include_once "ServiciosTest/ServicioResponsable.php";
 include_once "ServiciosTest/ServicioPersona.php";
+include_once "ServiciosTest/ServicioRealizaViaje.php";
 include_once "BaseDatos.php";
 
 
@@ -17,6 +18,8 @@ function menu1()
     $opciones .= "\n3. Pasajeros";
     $opciones .= "\n4. Responsables";
     $opciones .= "\n5. Persona";
+    $opciones .= "\n6. Realizar Viaje";
+    $opciones .= "\n7 Volver al menú";
     return $opciones;
 }
 
@@ -61,6 +64,12 @@ switch ($opcion) {
         llamarFuncionSeleccionadaPersona($opcion);
         break;
     case 6:
+        echo menuRealizaViaje();
+        echo "\nIngresar opción deseada: ";
+        $opcion = trim(fgets(STDIN));
+        llamarFuncionSeleccionadaRealizaViaje($opcion);
+        break;
+    case 7:
         echo "Volver a l menú inicial   \n ";
         echo menu1();
         break;

@@ -105,7 +105,7 @@ function buscarResponsable($idResponsable) {
     return Responsable::Buscar($idResponsable);
 }
 
-function insertarResponsable(Responsable $responsable) {
+function insertarResponsable($responsable) {
     //Primero busco si existe un responsable
     $respuesta=null;
     $responsableExistente = Responsable::Buscar($responsable->getIdPersona());
@@ -119,7 +119,7 @@ function insertarResponsable(Responsable $responsable) {
     return $respuesta;
 }
 
-function modificarResponsable(Responsable $responsable) {
+function modificarResponsable($responsable) {
    if($responsable->Modificar()){
         echo "El responsable se modifico con exito!";
     } else {
