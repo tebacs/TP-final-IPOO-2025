@@ -112,15 +112,18 @@ function buscarResponsable($idResponsable)
 
 function insertarResponsable(Responsable $responsable)
 {
+    echo "Insertando responsable...\n";
     //Primero busco si existe un responsable
-    $respuesta = null;
-    $responsableExistente = Responsable::Buscar($responsable->getIdPersona());
-    if ($responsableExistente !== null) {
-        $respuesta = "Ya existe un responsable con el ID: " . $responsable->getIdPersona() . "\n";
-    } else {
-        $respuesta = $responsable->insertar();
-    }
-    return $respuesta;
+    // $respuesta = null;
+    // $responsableExistente = Responsable::Buscar($responsable->getIdPersona());
+    // if ($responsableExistente !== null) {
+    //     $respuesta = "Ya existe un responsable con el ID: " . $responsable->getIdPersona() . "\n";
+    // } else {
+    $responsable->insertar();
+    echo "Responsable insertado correctamente.\n";
+
+    // }
+    // return $respuesta;
 
 }
 

@@ -164,7 +164,7 @@
         public function Insertar(){
             $base= new BaseDatos();
             $resp= false;
-            $consulta= "INSERT INTO Viaje( destinoViaje, cantMaxPasajeros, idEmpresa, idPersonaResponsable, importeViaje) 
+            $consulta= "INSERT INTO Viaje( destinoViaje, cantMaxPasajeros, idEmpresa, numeroResponsableViaje, importeViaje) 
                         VALUES ('". $this->getDestino() . "', '" .  $this->getMaxPasajeros() . "', '" . $this->getIdEmpresa()
                         . "', '" . $this->getResponsableV()->getIdPersona() . "', '" . $this->getImporte() . "')";
             
