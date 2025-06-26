@@ -2,7 +2,8 @@
 
 include_once "Responsable.php";
 
-function menuResponsable() {
+function menuResponsable()
+{
     $opciones = "----------MENU RESPONSABLE----------";
     $opciones .= "\n1. Listar Responsables";
     $opciones .= "\n2. Buscar Responsable";
@@ -12,7 +13,8 @@ function menuResponsable() {
     return $opciones;
 }
 
-function llamarFuncionSeleccionadaResponsable($opcion) {
+function llamarFuncionSeleccionadaResponsable($opcion)
+{
     switch ($opcion) {
         case 1:
             echo listarResponsables();
@@ -20,8 +22,8 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
         case 2:
             echo "Ingrese el ID del responsable a buscar: ";
             $idResponsable = trim(fgets(STDIN));
-            $responsableEncontrado = buscarResponsable($idResponsable );
-            if($responsableEncontrado!== null) {
+            $responsableEncontrado = buscarResponsable($idResponsable);
+            if ($responsableEncontrado !== null) {
                 echo "Responsable encontrado:\n";
                 echo $responsableEncontrado;
             } else {
@@ -33,7 +35,7 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
             echo "ID Persona: ";
             $idPersona = trim(fgets(STDIN));
             $persona = Persona::Buscar($idPersona);
-            if($persona!==null){
+            if ($persona !== null) {
                 echo "Numero de responsable: ";
                 $nroResponsable = trim(fgets(STDIN));
                 echo "Numero licencia: ";
@@ -43,7 +45,7 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
                 $responsable = new Responsable($nombre, $apellido, $nroResponsable, $nroLicencia);
                 $responsable->setIdPersona($idPersona);
                 echo insertarResponsable($responsable);
-            }else{
+            } else {
                 echo "no existe una persona con ese ID.\n";
             }
 
@@ -52,7 +54,7 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
             echo "Ingrese el ID del responsable a modificar:\n";
             $idResponsable = trim(fgets(STDIN));
             $responsable = Responsable::Buscar($idResponsable);
-            if($responsable !== null){
+            if ($responsable !== null) {
                 echo "Nuevo numero de responsable: ";
                 $nuevoNroResponsable = trim(fgets(STDIN));
                 echo "Nuevo numero de licencia: ";
@@ -61,18 +63,19 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
                 $responsable->setNumeroResponsable($nuevoNroResponsable);
                 $responsable->setNumeroLicencia($nuevoNroLicencia);
                 echo modificarResponsable($responsable);
-            }else{echo "no existe el Responsable";
+            } else {
+                echo "no existe el Responsable";
             }
-            
+
             break;
         case 5:
             echo "Ingrese el reponsable que quiere eliminar: \n";
             echo "Ingrese el id: \n";
             $idResponsable = trim(fgets(STDIN));
             $responsable = Responsable::Buscar($idResponsable);
-            if ($responsable !== null){
+            if ($responsable !== null) {
                 echo eliminarResponsable($responsable);
-            }else{
+            } else {
                 echo "No existe ningun responsable con este ID";
             }
             break;
@@ -82,7 +85,8 @@ function llamarFuncionSeleccionadaResponsable($opcion) {
     }
 }
 
-function listarResponsables() {
+function listarResponsables()
+{
     echo "Listando responsables...\n";
 
     $resultado = "";
@@ -93,7 +97,7 @@ function listarResponsables() {
         $resultado = "Listado de responsables:\n";
         $i = 1;
         foreach ($responsables as $responsable) {
-            $resultado .= "#$i " . $responsable. "\n";
+            $resultado .= "#$i " . $responsable . "\n";
             $resultado .= "--------------------------------\n";
             $i++;
         }
@@ -101,22 +105,28 @@ function listarResponsables() {
     return $resultado;
 }
 
-function buscarResponsable($idResponsable) {
+function buscarResponsable($idResponsable)
+{
     return Responsable::Buscar($idResponsable);
 }
 
-function insertarResponsable($responsable) {
+function insertarResponsable( $responsable) {
     //Primero busco si existe un responsable
+    // $respuesta = null;
+    // $responsableExistente = Responsable::Buscar($responsable->getIdPersona());
+    // if ($responsableExistente !== null) {
+    //     $respuesta = "Ya existe un responsable con el ID: " . $responsable->getIdPersona() . "\n";
+    // } else {
     $respuesta=null;
-    $responsableExistente = Responsable::Buscar($responsable->getIdPersona());
-    if ($responsableExistente !== null) {
-        $respuesta= "Ya existe un responsable con el ID de persona: " . $responsable->getIdPersona() . "\n";
-    
+    $responsable->insertar();
+    if($responsable === true){
+        $respuesta=  "Responsable insertado correctamente.\n";
+    }else{
+        $respuesta= "No se pudo insertar el responsable.\n";
     }
-    elseif($responsable->insertar()){
-        $respuesta="El responsable se inserto con exito!\n";
-    } 
-    return $respuesta;
+    
+     return $respuesta;
+
 }
 
 function modificarResponsable($responsable) {
@@ -127,8 +137,9 @@ function modificarResponsable($responsable) {
     }
 }
 
-function eliminarResponsable(Responsable $responsable) {
-    if ($responsable -> eliminar()) {
+function eliminarResponsable($responsable)
+{
+    if ($responsable->eliminar()) {
         echo "Se elimino el responsable!\n";
     } else {
         echo "NO se pudo eliminar el responsable.\n";
