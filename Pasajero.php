@@ -124,17 +124,22 @@ class Pasajero extends Persona
 	{
 		$base = new BaseDatos();
 		$resp = false;
-		$consultaInsertar = "INSERT INTO Pasajero(documentoPasajero, telefonoPasajero, idPersona) 
-				VALUES ('" . $this->getDocumentoPasajero() . "','" . $this->getTelefonoPasajero() . "'," . parent::getIdPersona() . ")";
-
-		if ($base->Iniciar()) {
-			if ($base->Ejecutar($consultaInsertar)) {
-				$resp = true;
+		if(parent::Insertar()){
+			$consultaInsertar = "INSERT INTO Pasajero(documentoPasajero, telefonoPasajero, idPersona) 
+					VALUES ('" . $this->getDocumentoPasajero() . "','" . $this->getTelefonoPasajero() . "'," . parent::getIdPersona() . ")";
+	
+			if ($base->Iniciar()) {
+				if ($base->Ejecutar($consultaInsertar)) {
+					$resp = true;
+				} else {
+					throw new Exception($base->getError());
+				}
 			} else {
 				throw new Exception($base->getError());
 			}
-		} else {
-			throw new Exception($base->getError());
+		}
+		else{
+			echo "no se puedo ingresar la persona";
 		}
 		return $resp;
 	}

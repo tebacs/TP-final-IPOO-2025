@@ -22,8 +22,8 @@ CREATE TABLE Persona(
 
 CREATE TABLE Responsable (
     numeroResponsable bigint,
-    idPersona bigint,
     numeroLicencia bigint,
+    idPersona bigint,
     borrado date DEFAULT NULL,
     PRIMARY KEY (idPersona),
     FOREIGN KEY (idPersona) REFERENCES Persona (idPersona)

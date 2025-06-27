@@ -114,6 +114,7 @@
 		
 		if($base->Iniciar()){
 			if($id = $base->devuelveIDInsercion($consultaInsertar)){
+				$this->setIdPersona($id);
 			    $resp=  true;
 
 			}	else {

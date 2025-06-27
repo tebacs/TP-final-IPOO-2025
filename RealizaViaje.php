@@ -36,19 +36,19 @@ class RealizaViaje{
     }
 
     public function __tostring(){
-        return "El pasajero " . $this->getIdPasajero()->__toString() . " realiza el viaje " . $this->getIdViaje()->__toString();
+        return "El pasajero " . $this->getIdPasajero() . " realiza el viaje " . $this->getIdViaje();
     }
 
     public static function Buscar($pasajero, $viaje){
         $base= new BaseDatos();
         $realizaViajeEncontrado=null;
-        $condicion= "SELECT * FROM RealizaViaje WHERE idViaje= ". $viaje . ", idPasajero= " . $pasajero;
+        $condicion= "SELECT * FROM RealizaViaje WHERE idViaje= ". $viaje . " AND idPasajero= " . $pasajero;
 
         if($base->Iniciar()){
             if($base->Ejecutar($condicion)){
                 if($fila= $base->Registro()){
                     $realizaViajeEncontrado= new RealizaViaje(
-                        $fila['idViaje'], $fila['idPasajero'] , $fila['fecha']
+                        $fila['idViaje'], $fila['idPasajero'] , $fila['fechaRealizaViaje']
                     );
                 }
             }else{
@@ -63,9 +63,9 @@ class RealizaViaje{
 
     /**
      * Recupera los RealizaViaje y los ordena segun su viaje y su pasajero
-     * @param mixed $condicion
-     * @throws \Exception
-     * @return RealizaViaje[]
+     * param mixed $condicion
+     * throws \Exception
+     * return RealizaViaje[]
      */
     public static function Listar($condicion=''){
         $aRealizaViaje=null; //Arreglo de RealizaViaje si se ejecuta la consulta
@@ -83,7 +83,7 @@ class RealizaViaje{
                 $aRealizaViaje=[];
                 while($fila= $base->Registro()){
                     $objRealizaViaje= new RealizaViaje(
-                        $fila['idViaje'], $fila['idPasajero'] , $fila['fecha']
+                        $fila['idViaje'], $fila['idPasajero'] , $fila['fechaRealizaViaje']
                     );
                     $aRealizaViaje[]=$objRealizaViaje;
                 }
@@ -99,7 +99,7 @@ class RealizaViaje{
     public function Insertar(){
         $base= new BaseDatos();
         $resp= false;
-        $consulta= "INSERT INTO RealizarViaje (idViaje, idPasajero, fecha) VALUES ('" . $this->getIdViaje() . "', '" . $this->getIdPasajero() . "', '" . $this->getFecha() . "')";
+        $consulta= "INSERT INTO RealizaViaje (idViaje, idPasajero, fechaRealizaViaje) VALUES ('" . $this->getIdViaje() . "', '" . $this->getIdPasajero() . "', '" . $this->getFecha() . "')";
 
         if($base->Iniciar()){
             if($base->Ejecutar($consulta)){
@@ -117,7 +117,7 @@ class RealizaViaje{
     public function Modificar(){
         $base= new BaseDatos();
         $resp= false;
-        $consulta= "UPDATE RealizaViaje SET idViaje= '" . $this->getIdViaje() . "', idPasajero= '" . $this->getIdPasajero() . "', fecha= '" . $this->getFecha() . "' WHERE idViaje= '" . $this->getIdViaje() . "', idPasajero= '" . $this->getIdPasajero()."'";
+        $consulta= "UPDATE RealizaViaje SET idViaje= '" . $this->getIdViaje() . "', idPasajero= '" . $this->getIdPasajero() . "', fechaRealizaViaje= '" . $this->getFecha() . "' WHERE idViaje= '" . $this->getIdViaje() . "', idPasajero= '" . $this->getIdPasajero()."'";
 
         if($base->Iniciar()){
             if($base->Ejecutar($consulta)){
@@ -136,7 +136,7 @@ class RealizaViaje{
         $resp= false;
 
         if($base->Iniciar()){
-            $consulta= "UPDATE RealizaViaje SET borrad= CURRENT_DATE WHERE idViaje= '" . $this->getIdViaje() . "', idPasajero= '" . $this->getIdViaje() ."'";
+            $consulta= "UPDATE RealizaViaje SET borrado = CURRENT_DATE WHERE idViaje= " . $this->getIdViaje() . " AND  idPasajero= " . $this->getIdViaje();
             if($base->Ejecutar($consulta)){
                 $resp=true;
             }else{

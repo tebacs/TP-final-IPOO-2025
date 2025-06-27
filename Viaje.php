@@ -105,7 +105,7 @@
                     if($fila=$base->Registro()){
                         $viajeEncontrado= new Viaje(
                             $fila['idEmpresa'],
-                            $fila['idPersonaResponsable'],
+                            $fila['numeroResponsableViaje'],
                             $fila['destinoViaje'],
                             $fila['cantMaxPasajeros'],
                             $fila['importeViaje']

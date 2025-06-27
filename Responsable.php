@@ -122,18 +122,19 @@ class Responsable extends Persona
 	{
 		$base = new BaseDatos();
 		$resp = false;
-		$consultaInsertar = "INSERT INTO Responsable(numeroResponsable, idPersona, numeroLicencia) 
-			VALUES (" . $this->getNumeroResponsable() . "," . parent::getIdPersona() . "," . $this->getNumeroLicencia() . ")";
-
-		if ($base->Iniciar()) {
-			if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
-				$this->setIdPersona($id);
-				$resp = true;
+		if(parent::Insertar()){
+			$consultaInsertar = "INSERT INTO Responsable(numeroResponsable,numeroLicencia, idPersona) 
+				VALUES (" . $this->getNumeroResponsable() . "," . $this->getNumeroLicencia() . "," . parent::getIdPersona() . ")";
+	
+			if ($base->Iniciar()) {
+				if ($base->Ejecutar($consultaInsertar)) {
+					$resp = true;
+				} else {
+					throw new Exception($base->getError());
+				}
 			} else {
 				throw new Exception($base->getError());
 			}
-		} else {
-			throw new Exception($base->getError());
 		}
 		return $resp;
 	}
@@ -142,7 +143,7 @@ class Responsable extends Persona
 	{
 		$resp = false;
 		$base = new BaseDatos();
-		$consultaModifica = "UPDATE Responsable SET numeroResponsable='" . $this->getNumeroResponsable() . "', idPersona='" . parent::getIdPersona() . "', numeroLicencia='" . $this->getNumeroLicencia() . "' WHERE idPersona=" . parent::getIdPersona();
+		$consultaModifica = "UPDATE Responsable SET numeroResponsable='" . $this->getNumeroResponsable() . "', numeroLicencia='" . $this->getNumeroLicencia() . "', idPersona='" . parent::getIdPersona() . "' WHERE idPersona=" . parent::getIdPersona();
 		if ($base->Iniciar()) {
 			if ($base->Ejecutar($consultaModifica)) {
 				$resp = true;

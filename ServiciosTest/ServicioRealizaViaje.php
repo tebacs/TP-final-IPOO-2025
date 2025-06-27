@@ -48,7 +48,9 @@ function llamarFuncionSeleccionadaRealizaViaje($opcion){
                         echo "\nFecha:";
                         $fecha= trim(fgets(STDIN));
                         $realizaViaje= new RealizaViaje($idViaje,$idPasajero,$fecha);
-                        $viaje->setPasajeros[]=$pasajero;
+                        echo insertarRealizaViaje($realizaViaje);
+                        array_push($colPasajeros, $pasajero);
+                        $viaje->setPasajeros($colPasajeros);
                     }else{
                         echo "El viaje no admite mas pasajeros\n";
                     }

@@ -32,23 +32,16 @@ function llamarFuncionSeleccionadaPasajero($opcion)
             break;
         case 3:
             echo "Ingrese los datos del pasajero:\n";
-            echo "ID persona: ";
-            $idPersona = trim(fgets(STDIN));
-            $persona = Persona::Buscar($idPersona);
-            if ($persona !== null) {
+            echo "nombre: ";
+            $nombre = trim(fgets(STDIN));
+            echo "apellido: ";
+            $apellido = trim(fgets(STDIN));
                 echo "Numero documento: ";
                 $nroDocumento = trim(fgets(STDIN));
                 echo "Numero telefono: ";
                 $nroTelefono = trim(fgets(STDIN));
-                $nombre = $persona->getNombre();
-                $apellido = $persona->getApellido();
-
                 $pasajero = new Pasajero($nombre, $apellido, $nroDocumento, $nroTelefono);
-                $pasajero->setIdPersona($idPersona);
                 echo insertarPasajero($pasajero);
-            } else {
-                echo "No existe una persona con ese ID.\n";
-            }
             break;
         case 4:
             echo "Ingrese el ID del pasajero a modificar:\n";

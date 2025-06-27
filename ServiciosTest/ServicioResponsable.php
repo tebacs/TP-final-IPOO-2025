@@ -32,22 +32,16 @@ function llamarFuncionSeleccionadaResponsable($opcion)
             break;
         case 3:
             echo "Ingrese los datos del responsable:\n";
-            echo "ID Persona: ";
-            $idPersona = trim(fgets(STDIN));
-            $persona = Persona::Buscar($idPersona);
-            if ($persona !== null) {
+            echo "nombre: ";
+            $nombre = trim(fgets(STDIN));
+            echo "apellido: ";
+            $apellido = trim(fgets(STDIN));
                 echo "Numero de responsable: ";
                 $nroResponsable = trim(fgets(STDIN));
                 echo "Numero licencia: ";
                 $nroLicencia = trim(fgets(STDIN));
-                $nombre = $persona->getNombre();
-                $apellido = $persona->getApellido();
                 $responsable = new Responsable($nombre, $apellido, $nroResponsable, $nroLicencia);
-                $responsable->setIdPersona($idPersona);
                 echo insertarResponsable($responsable);
-            } else {
-                echo "no existe una persona con ese ID.\n";
-            }
 
             break;
         case 4:
@@ -119,7 +113,7 @@ function insertarResponsable( $responsable) {
     // } else {
     $respuesta=null;
     $responsable->insertar();
-    if($responsable === true){
+    if($responsable){
         $respuesta=  "Responsable insertado correctamente.\n";
     }else{
         $respuesta= "No se pudo insertar el responsable.\n";
